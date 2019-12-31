@@ -79,3 +79,7 @@ body {
     stroke-dashoffset: 0;
   }
 }
+
+svg#img-not-found-page{
+  width: 100px !important;
+}

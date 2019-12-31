@@ -6,16 +6,14 @@ class UsersController < ApplicationController
     erb :"/users/signup.html"
   end
 
-  # POST: /users
   post "/signup" do
     redirect '/login' if User.find_by(email: params[:email])
     redirect "/signup" if params[:name].empty? || params[:email].empty? || params[:password].empty?
 
-    User.create(params)
+    user = User.create(params.to_a[0...-1].to_h)
+    params[:type] == "passenger" ? Passenger.create(user: user) : Driver.create(user: user)
     redirect '/login'
   end
-
-
 
    # Displays Login Page 
    get "/login" do
@@ -35,6 +33,7 @@ class UsersController < ApplicationController
 
   end
 
+  # Log Out
   get "/logout" do
     session.clear
     redirect '/'

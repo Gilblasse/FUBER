@@ -1,8 +1,9 @@
 class PassengersController < ApplicationController
 
   # GET: /passengers
-  get "/passengers" do
-    erb :"/passengers/index.html"
+  get "/passenger/dashboard" do
+    authenticate_user    
+    erb :"/passengers/dashboard.html"
   end
 
   # GET: /passengers/new
@@ -34,4 +35,19 @@ class PassengersController < ApplicationController
   delete "/passengers/:id/delete" do
     redirect "/passengers"
   end
+
+
+  helpers do 
+
+    def authenticate_user
+      redirect "/login" if !Helpers.logged_in?(session)
+      redirect "/not-found" if Helpers.current_user(session).class.to_s != "Passenger"
+    end
+  
+  end
+
+
+
+
+
 end

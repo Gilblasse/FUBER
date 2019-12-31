@@ -1,18 +1,19 @@
 class Helpers
 
-
     def self.logged_in?(session)
       !!session[:user_id]
     end
 
     def self.current_user(session)
-      User.find(session[:user_id])
+      user = User.find(session[:user_id])
+      Passenger.find_by(user: user) || Driver.find_by(user: user)
     end
 
     def self.user_dashboard(session)
-      user = self.current_user(session)
-      route = {passenger: '/passenger/dashboard', driver: '/driver/dashboard' }
-      route[user.user_type.to_sym]
+      current_user = self.current_user(session)
+
+      route = {"Passenger" => '/passenger/dashboard', "Driver" => '/driver/dashboard' }
+      route[current_user.class.to_s]
     end
 
 

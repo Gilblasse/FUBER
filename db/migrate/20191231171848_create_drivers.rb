@@ -1,6 +1,6 @@
-class CreatePassengers < ActiveRecord::Migration
+class CreateDrivers < ActiveRecord::Migration
   def change
-    create_table :passengers do |t|
+    create_table :drivers do |t|
       t.integer :user_id
       t.timestamps null: false
     end
