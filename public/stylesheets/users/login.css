@@ -1,0 +1,53 @@
+body{
+    overflow: hidden;
+}
+section{
+    height:100vh;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+#form-wrapper {
+    position: absolute;
+    transform: translateY(15vh);
+}
+
+#form-animation {
+  animation-duration: 3s;
+  animation-delay: 1s;
+}
+
+#animated_bk {
+    height:100vh;
+    background-color: #39374d;
+    -webkit-clip-path: polygon(0 0, 49% 0, 100% 0, 100% 100%, 0 100%, 0% 60%, 0 0);
+    clip-path: polygon(0 0, 49% 0, 100% 0, 100% 100%, 0 100%, 0% 60%, 0 0);
+    animation: rolling-back 2s ease-in-out 1s 1 normal forwards;
+    z-index: 0;
+  }
+
+  @keyframes rolling-back {
+    0% {
+      -webkit-clip-path: polygon(0 0, 49% 0, 100% 0, 100% 100%, 0 100%, 0% 60%, 0 0);
+      clip-path: polygon(0 0, 49% 0, 100% 0, 100% 100%, 0 100%, 0% 60%, 0 0);
+    }
+    56%, 70%{ 
+      -webkit-clip-path: polygon(0 0, 25% 0, 51% 63%, 100% 100%, 0 100%, 0% 60%, 0 0);
+      clip-path: polygon(0 0, 25% 0, 51% 63%, 100% 100%, 0 100%, 0% 60%, 0 0);/*25 51*/
+    }
+    100% {
+      -webkit-clip-path: polygon(0 0, 10% 0, 38% 74%, 100% 100%, 0 100%, 0% 60%, 0 14%);
+      clip-path: polygon(0 0, 10% 0, 38% 74%, 100% 100%, 0 100%, 0% 60%, 0 14%);
+    }
+}
+
+#svg-pic {
+    max-width: 700px;
+    position: absolute;
+    top: 100px;
+    left: 5%;
+    z-index: 5;
+    animation-duration: 3s;
+    animation-delay: 3s;
+}
+
