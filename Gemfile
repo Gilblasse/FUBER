@@ -16,6 +16,7 @@ gem 'eventmachine', '~> 1.0.0'
 gem 'google_maps_service'
 gem 'googlestaticmap', '~> 1.2', '>= 1.2.6'
 gem 'faker'
+gem 'sysrandom'
 
 group :test do
   gem 'rspec'
