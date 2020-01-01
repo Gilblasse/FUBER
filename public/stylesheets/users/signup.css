@@ -22,7 +22,7 @@ animation-delay: 2s;
     background-color: #39374d;
     -webkit-clip-path: inset(0 0 0 0);
     clip-path: inset(0 0 0 0);
-    animation: slide-halfway 2s ease-in-out 1s 1 normal forwards;
+    animation: slide-halfway 1s ease-in-out 1s 1 normal forwards;
     z-index: 0;
   }
 

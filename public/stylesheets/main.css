@@ -81,5 +81,6 @@ body {
 }
 
 svg#img-not-found-page{
-  width: 100px !important;
+  margin: 0 auto;
+  width: 400px !important;
 }

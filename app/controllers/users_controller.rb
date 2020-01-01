@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   post "/signup" do
     authenticate_form
     user = User.create(params[:user])
-    create_user_type
+    create_user_type(user)
     redirect '/login'
   end
 
@@ -28,7 +28,6 @@ class UsersController < ApplicationController
     else 
       redirect '/login'
     end  
-
   end
 
   # Log Out
@@ -38,14 +37,17 @@ class UsersController < ApplicationController
   end
 
 
+
+  
   helpers do 
 
     def authenticate_form
       redirect '/login' if User.find_by(email: params[:email])
-      redirect "/signup" if params[:name].empty? || params[:email].empty? || params[:password].empty?
+      redirect "/signup" if params[:user][:name].empty? || params[:user][:email].empty? || params[:user][:password].empty?
     end
 
-    def create_user_type
+    def create_user_type(user)
+      binding.pry
       params[:type] == "passenger" ? Passenger.create(user: user) : Driver.create(user: user)
     end
   
