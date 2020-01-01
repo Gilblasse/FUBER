@@ -2,8 +2,9 @@ class PassengersController < ApplicationController
 
   # GET: /passengers
   get "/passenger/dashboard" do
+    @stylesheet_link = "/stylesheets/main.css"
     @passenger = authenticate_user  
-     
+    
     erb :"/passengers/dashboard.html"
   end
 
