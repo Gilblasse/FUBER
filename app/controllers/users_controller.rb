@@ -7,11 +7,9 @@ class UsersController < ApplicationController
   end
 
   post "/signup" do
-    redirect '/login' if User.find_by(email: params[:email])
-    redirect "/signup" if params[:name].empty? || params[:email].empty? || params[:password].empty?
-
-    user = User.create(params.to_a[0...-1].to_h)
-    params[:type] == "passenger" ? Passenger.create(user: user) : Driver.create(user: user)
+    authenticate_form
+    user = User.create(params[:user])
+    create_user_type
     redirect '/login'
   end
 
@@ -37,6 +35,20 @@ class UsersController < ApplicationController
   get "/logout" do
     session.clear
     redirect '/'
+  end
+
+
+  helpers do 
+
+    def authenticate_form
+      redirect '/login' if User.find_by(email: params[:email])
+      redirect "/signup" if params[:name].empty? || params[:email].empty? || params[:password].empty?
+    end
+
+    def create_user_type
+      params[:type] == "passenger" ? Passenger.create(user: user) : Driver.create(user: user)
+    end
+  
   end
 
 
