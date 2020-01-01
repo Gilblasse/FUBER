@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   # Displays Sign Up Page
   get "/signup" do
     @stylesheet_link = "/stylesheets/users/signup.css"
+    redirect Helpers.user_dashboard(session) if Helpers.logged_in?(session)
     erb :"/users/signup.html"
   end
 
@@ -16,6 +17,7 @@ class UsersController < ApplicationController
    # Displays Login Page 
    get "/login" do
     @stylesheet_link = "/stylesheets/users/login.css"
+    redirect Helpers.user_dashboard(session) if Helpers.logged_in?(session)
     erb :"/users/login.html"
   end
 
@@ -47,7 +49,6 @@ class UsersController < ApplicationController
     end
 
     def create_user_type(user)
-      binding.pry
       params[:type] == "passenger" ? Passenger.create(user: user) : Driver.create(user: user)
     end
   
