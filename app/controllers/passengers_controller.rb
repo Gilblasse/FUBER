@@ -2,7 +2,8 @@ class PassengersController < ApplicationController
 
   # GET: /passengers
   get "/passenger/dashboard" do
-    authenticate_user    
+    @passenger = authenticate_user  
+     
     erb :"/passengers/dashboard.html"
   end
 
@@ -42,6 +43,7 @@ class PassengersController < ApplicationController
     def authenticate_user
       redirect "/login" if !Helpers.logged_in?(session)
       redirect "/not-found" if Helpers.current_user(session).class.to_s != "Passenger"
+      Helpers.current_user(session)
     end
   
   end

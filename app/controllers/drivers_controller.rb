@@ -2,7 +2,7 @@ class DriversController < ApplicationController
 
   # GET: /drivers
   get "/driver/dashboard" do
-    authenticate_user
+    @driver = authenticate_user
     erb :"/drivers/dashboard.html"
   end
 
@@ -42,6 +42,7 @@ class DriversController < ApplicationController
     def authenticate_user
       redirect "/login" if !Helpers.logged_in?(session)
       redirect "/not-found" if Helpers.current_user(session).class.to_s != "Driver"
+      Helpers.current_user(session)
     end
   
   end
