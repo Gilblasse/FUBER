@@ -1,21 +1,28 @@
 class PassengersController < ApplicationController
 
   
-  get "/passenger/dashboard" do
+  get "/passenger/trip/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user  
     
-    erb :"/passengers/dashboard.html"
+    erb :"/passengers/book-trip.html"
   end
 
-  # GET: /passengers/new
-  get "/passengers/new" do
-    erb :"/passengers/new.html"
+  post "/passengers/trip" do
+    binding.pry
+    redirect "/passengers/trip/drivers/new"
   end
 
-  # POST: /passengers
-  post "/passengers" do
-    redirect "/passengers"
+  get "/passengers/trip/drivers/new" do
+    erb :"/passengers/book-driver.html"
+  end
+
+  post "/passengers/trip/drivers" do
+    redirect "/passengers/trip/drivers/new"
+  end
+
+  get " " do 
+
   end
 
   # GET: /passengers/5

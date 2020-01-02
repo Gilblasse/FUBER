@@ -1,0 +1,71 @@
+
+
+
+<div id="map"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var startingPosition = {zoom: 12, center:{lat: 40.7464573, lng: -74.0020353}}
+        var whereFrom = document.getElementById('search-term');
+        var whereToInput = document.getElementById('where-to');
+
+
+
+        targets = [
+                {
+                coord: {lat: 40.712383, lng: -73.994896},
+                iconImage: 'http://maps.google.com/mapfiles/kml/pal4/icon62.png'                
+                },
+                {
+                coord: {lat: 40.712383, lng: -73.994896},
+                iconImage: 'http://maps.google.com/mapfiles/kml/paddle/red-stars-lv.png'                
+                },
+                {
+                coord: {lat: 40.712383, lng: -73.994896},
+                // iconImage: 'http://maps.google.com/mapfiles/kml/pal4/icon62.png'                
+                }
+            ]
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), startingPosition);
+
+            // Add maker Markers can be found on:: https://sites.google.com/site/gmapsdevelopment/
+
+            function addMarker(mark) {
+                // debugger;
+                marker = new google.maps.Marker({
+                    map: map,
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                    position: mark.coord,
+                    icon: mark.iconImage
+                });
+            };
+
+
+            for(let target of targets){
+                addMarker(target)
+            }
+
+           
+        }
+        
+
+    
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaJUNgMSEae4z_X1lRQI-2PjqwfamHNOk&callback=initMap"></script>

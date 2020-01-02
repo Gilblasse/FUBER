@@ -12,7 +12,7 @@ class Helpers
     def self.user_dashboard(session)
       current_user = self.current_user(session)
 
-      route = {"Passenger" => '/passenger/dashboard', "Driver" => '/driver/dashboard' }
+      route = {"Passenger" => '/passenger/trip/new', "Driver" => '/driver/dashboard' }
       route[current_user.class.to_s]
     end
 
