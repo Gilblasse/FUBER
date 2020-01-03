@@ -29,19 +29,20 @@
     <section>
         <div class="row mt-5">
             <div class=" col-lg-6 offset-lg-3">
-                <form action="/passenger/book-trip" method="POST">
+                <form action="/passenger/book-trip/<%=@trip.id%>" method="POST">
+                <input id="hidden" type="hidden" name="_method" value="PATCH">
 
                     <div class="form-group">
                         <label for="search-term">Origin: </label>
-                        <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" name="address[from]">
+                        <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" value="<%=@trip.from%>" name="address[from]">
                     </div>
 
                     <div class="form-group">
                         <label for="where-to">Destination: </label>
-                        <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" name="address[to]">
+                        <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.to%>" name="address[to]">
                     </div>
 
-                    <button type="submit" class="btn btn-outline-primary align-self-center">Update Trip Info</button>
+                    <button type="submit" class="btn btn-outline-primary align-self-center">Hitch A Ride</button>
                 </form>
             </div>
         </div>

@@ -5,7 +5,7 @@ class CreateTrips < ActiveRecord::Migration
       t.integer  :driver_id
       t.string   :from
       t.string   :to    
-      
+      t.string   :status
       t.timestamps null: false
     end
   end

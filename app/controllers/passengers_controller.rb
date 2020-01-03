@@ -15,20 +15,49 @@ class PassengersController < ApplicationController
     redirect "/passenger/book-trip/#{trip.id}/driver/new"
   end
 
+
+
+
+  get '/passenger/book-trip/:id/edit' do 
+    @passenger = authenticate_user
+    @trip = Trip.find(params[:id])
+
+    erb :"/passengers/book-trip-edit.html"
+  end
+
+  patch '/passenger/book-trip/:id' do 
+    
+    redirect "/passenger/book-trip/#{params[:id]}/driver/new"
+  end
+
+
+
+
   get "/passenger/book-trip/:id/driver/new" do
+    @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user 
     @trip = Trip.find(params[:id])
     @drivers = Driver.closest_drivers(@trip.from)
+    @trip_leg = GMAPS.directions(@trip.from, @trip.to, mode: 'driving',alternatives: false)
 
     erb :"/passengers/book-driver.html"
   end
 
-  post "/passenger/trip/drivers" do
-    redirect "/passenger/trip/drivers/new"
+  post "/passenger/trip/:id/driver" do
+    trip = Trip.find(params[:id])
+    driver = Driver.find(params[:driver_id])
+    trip.driver = driver 
+    trip.save
+    driver.reload
+    redirect "/passenger/trips"
   end
 
-  get " " do 
 
+
+
+  get "/passenger/trips" do 
+
+    erb :"/passengers/trips.html"
   end
 
   # GET: /passengers/5

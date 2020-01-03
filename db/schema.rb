@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20200102072148) do
     t.integer  "driver_id"
     t.string   "from"
     t.string   "to"
+    t.string   "status"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
