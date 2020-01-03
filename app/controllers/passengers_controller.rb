@@ -1,24 +1,30 @@
 class PassengersController < ApplicationController
 
   
-  get "/passenger/trip/new" do
+  get "/passenger/book-trip/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user  
     
     erb :"/passengers/book-trip.html"
   end
 
-  post "/passengers/trip" do
-    binding.pry
-    redirect "/passengers/trip/drivers/new"
+  post "/passenger/book-trip" do
+    passenger = authenticate_user 
+    trip = passenger.trips.create(params[:address])
+
+    redirect "/passenger/book-trip/#{trip.id}/driver/new"
   end
 
-  get "/passengers/trip/drivers/new" do
+  get "/passenger/book-trip/:id/driver/new" do
+    @passenger = authenticate_user 
+    @trip = Trip.find(params[:id])
+    @drivers = Driver.closest_drivers(@trip.from)
+
     erb :"/passengers/book-driver.html"
   end
 
-  post "/passengers/trip/drivers" do
-    redirect "/passengers/trip/drivers/new"
+  post "/passenger/trip/drivers" do
+    redirect "/passenger/trip/drivers/new"
   end
 
   get " " do 

@@ -29,7 +29,7 @@
     <section>
         <div class="row mt-5">
             <div class=" col-lg-6 offset-lg-3">
-                <form action="/passengers/trip" method="POST">
+                <form action="/passenger/book-trip" method="POST">
 
                     <div class="form-group">
                         <label for="search-term">Origin: </label>
@@ -60,7 +60,7 @@
             var auto = new google.maps.places.Autocomplete(whereToInput);
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBaJUNgMSEae4z_X1lRQI-2PjqwfamHNOk&libraries=places&callback=activatePlacesSearch"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%=API_KEY%>&libraries=places&callback=activatePlacesSearch"></script>
 
 </div>
 

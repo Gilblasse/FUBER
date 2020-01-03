@@ -3,21 +3,20 @@ class UsersController < ApplicationController
   # Displays Sign Up Page
   get "/signup" do
     @stylesheet_link = "/stylesheets/users/signup.css"
-    redirect Helpers.user_dashboard(session) if Helpers.logged_in?(session)
+    redirect user_dashboard if logged_in?
     erb :"/users/signup.html"
   end
 
   post "/signup" do
     authenticate_form
-    user = User.create(params[:user])
-    create_user_type(user)
+    create_user_type
     redirect '/login'
   end
 
    # Displays Login Page 
    get "/login" do
     @stylesheet_link = "/stylesheets/users/login.css"
-    redirect Helpers.user_dashboard(session) if Helpers.logged_in?(session)
+    redirect user_dashboard if logged_in?
     erb :"/users/login.html"
   end
 
@@ -26,7 +25,7 @@ class UsersController < ApplicationController
 
     if !!user 
       session[:user_id] = user.id
-      redirect Helpers.user_dashboard(session)
+      redirect user_dashboard
     else 
       redirect '/login'
     end  
@@ -48,8 +47,17 @@ class UsersController < ApplicationController
       redirect "/signup" if params[:user][:name].empty? || params[:user][:email].empty? || params[:user][:password].empty?
     end
 
-    def create_user_type(user)
-      params[:type] == "passenger" ? Passenger.create(user: user) : Driver.create(user: user)
+    def create_user_type
+      user = User.create(params[:user])
+      params[:type] == "passenger" ? user.create_passenger : user.create_driver
+    end
+
+    def user_dashboard
+      Helpers.user_dashboard(session)
+    end
+
+    def logged_in?
+      Helpers.logged_in?(session)
     end
   
   end

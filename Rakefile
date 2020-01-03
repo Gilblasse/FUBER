@@ -12,8 +12,8 @@ namespace 'db' do
 
     desc "Removes data from tables and resets PK"
     task 'reset!' do 
-        tables = ["users","passengers","drivers"]
-        models = ["User","Passenger","Driver"]
+        tables = ["users","passengers","drivers","trips"]
+        models = ["User","Passenger","Driver","Trip"]
 
         klasses = models.map {|model| model.constantize }
         klasses.each{|klass| klass.destroy_all }

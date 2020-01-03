@@ -1,67 +1,83 @@
 
+<% trip_leg = GMAPS.directions(@trip.from, @trip.to, mode: 'driving',alternatives: false) %>
+<% 
+    @passenger_start = trip_leg[0][:legs][0][:start_location].to_json
+    @passenger_end = trip_leg[0][:legs][0][:end_location].to_json
+    meters = trip_leg[0][:legs][0][:distance][:value]  
+    feet = meters * 3.281
+    @miles = (feet / 5280).ceil()
+%>
 
 
-<div id="map"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <section>
+        <div id="map" style="width:800px; height:500px; margin:0 auto;"></div>
+    </section>
 
 
 
 
-    <script>
-        var startingPosition = {zoom: 12, center:{lat: 40.7464573, lng: -74.0020353}}
-        var whereFrom = document.getElementById('search-term');
-        var whereToInput = document.getElementById('where-to');
 
 
 
-        targets = [
-                {
-                coord: {lat: 40.712383, lng: -73.994896},
-                iconImage: 'http://maps.google.com/mapfiles/kml/pal4/icon62.png'                
-                },
-                {
-                coord: {lat: 40.712383, lng: -73.994896},
-                iconImage: 'http://maps.google.com/mapfiles/kml/paddle/red-stars-lv.png'                
-                },
-                {
-                coord: {lat: 40.712383, lng: -73.994896},
-                // iconImage: 'http://maps.google.com/mapfiles/kml/pal4/icon62.png'                
-                }
+
+
+
+
+
+    <script>      
+        
+        function initMap() {
+            var carImg = 'http://maps.google.com/mapfiles/kml/pal4/icon62.png'
+            var startMarker = 'http://maps.google.com/mapfiles/kml/paddle/red-stars-lv.png'
+
+            var driver_geocodes = <%= @drivers.map do |driver| driver.leg[:geocode] end %>;
+            var latlngcodes = [];
+            
+            for(let code of driver_geocodes){
+                latlngcodes.push(
+                    {
+                        coord: JSON.parse(code),
+                        iconImage: carImg
+                    }
+                );
+            }
+
+
+
+           var miles = <%= @miles %>
+           var zoomCalc = Math.floor(Math.log2(97.27130 * Math.cos(<%= @passenger_start %>.lat * Math.PI / 180) * 500 / miles))
+            var zoom = zoomCalc;   
+            var startingPosition = {zoom: zoom, center: <%= @passenger_start %> };
+            
+
+
+            var map = new google.maps.Map(document.getElementById('map'), startingPosition);
+            var passengerGeoMarkers = [
+                {coord: <%= @passenger_start %>, iconImage: startMarker },
+                {coord: <%= @passenger_end %>}
             ]
 
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), startingPosition);
-
+            
+            
             // Add maker Markers can be found on:: https://sites.google.com/site/gmapsdevelopment/
-
-            function addMarker(mark) {
-                // debugger;
+            function addMarker(driver) {
                 marker = new google.maps.Marker({
                     map: map,
                     draggable: true,
                     animation: google.maps.Animation.DROP,
-                    position: mark.coord,
-                    icon: mark.iconImage
+                    position: driver.coord,
+                    icon: driver.iconImage
                 });
             };
 
 
-            for(let target of targets){
-                addMarker(target)
+            for(let driver of latlngcodes){
+                addMarker(driver)
             }
 
+            for(let passenger of passengerGeoMarkers){
+                addMarker(passenger)
+            }
            
         }
         

@@ -3,6 +3,7 @@ class DriversController < ApplicationController
   # GET: /drivers
   get "/driver/dashboard" do
     @driver = authenticate_user
+
     erb :"/drivers/dashboard.html"
   end
 

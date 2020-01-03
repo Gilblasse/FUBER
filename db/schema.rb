@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191231171848) do
+ActiveRecord::Schema.define(version: 20200102072148) do
 
   create_table "drivers", force: :cascade do |t|
     t.integer  "user_id"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20191231171848) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "trips", force: :cascade do |t|
+    t.integer  "passenger_id"
+    t.integer  "driver_id"
+    t.string   "from"
+    t.string   "to"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "users", force: :cascade do |t|
