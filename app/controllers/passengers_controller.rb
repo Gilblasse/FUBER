@@ -71,15 +71,13 @@ class PassengersController < ApplicationController
       @passenger = authenticate_user
       erb :"/passengers/trips.html"
     end
-   
   
 
 
 
-  get "/passenger/trips" do 
 
-    erb :"/passengers/trips.html"
-  end
+
+
 
   # GET: /passengers/5
   get "/passengers/:id" do
