@@ -1,8 +1,12 @@
 class UsersController < ApplicationController
 
+  set :message, {}
+
+
   # Displays Sign Up Page
   get "/signup" do
     @stylesheet_link = "/stylesheets/users/signup.css"
+    settings.message.clear
     redirect user_dashboard if logged_in?
     erb :"/users/signup.html"
   end
@@ -16,6 +20,7 @@ class UsersController < ApplicationController
    # Displays Login Page 
    get "/login" do
     @stylesheet_link = "/stylesheets/users/login.css"
+    settings.message.clear
     redirect user_dashboard if logged_in?
     erb :"/users/login.html"
   end
@@ -37,20 +42,31 @@ class UsersController < ApplicationController
     redirect '/'
   end
 
+  get '/failure' do
+    redirect '/login' if settings.message[:email].nil?
+    "Email: #{settings.message[:email]}<br>#{settings.message[:error][:email][0]}<br> <a href='/signup'>Sign Up</a>"
+  end
 
 
   
   helpers do 
 
     def authenticate_form
-      redirect '/login' if User.find_by(email: params[:email])
       redirect "/signup" if params[:user][:name].empty? || params[:user][:email].empty? || params[:user][:password].empty?
     end
 
     def create_user_type
-      user = User.create(params[:user])
-      params[:type] == "passenger" ? user.create_passenger : user.create_driver
+      user = User.new(params[:user])
+      
+      if user.valid? 
+        user.save
+        params[:type] == "passenger" ? user.create_passenger : user.create_driver
+      end
+      settings.message[:error] = user.errors.messages
+      settings.message[:email] = params[:user][:email]
+      redirect '/failure'
     end
+
 
     def user_dashboard
       Helpers.user_dashboard(session)

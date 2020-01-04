@@ -1,6 +1,6 @@
 class PassengersController < ApplicationController
 
-  
+  # BOOK NEW TRIP FORM
   get "/passenger/book-trip/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user  
@@ -8,31 +8,44 @@ class PassengersController < ApplicationController
     erb :"/passengers/book-trip.html"
   end
 
-  post "/passenger/book-trip" do
+  post "/passenger/book-trip" do      # CREATED NEW TRIP
     passenger = authenticate_user 
     trip = passenger.trips.create(params[:address])
 
     redirect "/passenger/book-trip/#{trip.id}/driver/new"
   end
 
+  # post '/passenger/trip/2' do
+  #   "Hello World"
+  # end
 
-
-
-  get '/passenger/book-trip/:id/edit' do 
+  # EDIT A TRIP  -  PRESENT UPDATE FORM
+  get '/passenger/trip/:id/edit' do 
     @passenger = authenticate_user
     @trip = Trip.find(params[:id])
 
-    erb :"/passengers/book-trip-edit.html"
+    erb :"/passengers/edit-trip.html"
   end
 
-  patch '/passenger/book-trip/:id' do 
+  post "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    trip = Trip.find(params[:id])
+    trip.update(from: params[:address][:from] ,to: params[:address][:to])
+    redirect "/passenger/trip/#{params[:id]}"
+  end
+
+
+
+  # SHOW TRIP 
+  get '/passenger/trip/:id' do 
+    @stylesheet_link = "/stylesheets/passengers/dashboard.css"
+    authenticate_user
+    @trip = Trip.find(params[:id])
     
-    redirect "/passenger/book-trip/#{params[:id]}/driver/new"
+    erb :"/passengers/show-trip.html"
   end
 
 
-
-
+  # BOOK NEW DRIVER  - PRESENTING FORM
   get "/passenger/book-trip/:id/driver/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user 
@@ -43,7 +56,7 @@ class PassengersController < ApplicationController
     erb :"/passengers/book-driver.html"
   end
 
-  post "/passenger/trip/:id/driver" do
+  post "/passenger/trip/:id/driver" do     # CREATED NEW DRIVER FOR TRIP
     trip = Trip.find(params[:id])
     driver = Driver.find(params[:driver_id])
     trip.driver = driver 
@@ -52,6 +65,14 @@ class PassengersController < ApplicationController
     redirect "/passenger/trips"
   end
 
+    # SHOW ALL TRIPS 
+    get '/passenger/trips' do 
+      # binding.pry
+      @passenger = authenticate_user
+      erb :"/passengers/trips.html"
+    end
+   
+  
 
 
 
