@@ -3,23 +3,8 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
         <div class="d-flex w-50 order-0">
             <a class="navbar-brand mr-1" href="#">Welcome, <%= @passenger.user.name %></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
-        <div class="navbar-collapse collapse justify-content-center order-2" id="collapsingNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Book Trip</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Trips</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Reviews</a>
-                </li>
-            </ul>
-        </div>
+
         <i class="material-icons profile-img">account_circle</i>
     </nav>
 
@@ -29,8 +14,8 @@
     <section>
         <div class="row mt-5">
             <div class=" col-lg-6 offset-lg-3">
-                <form action="/passenger/book-trip/<%=@trip.id%>" method="POST">
-                <input id="hidden" type="hidden" name="_method" value="PATCH">
+                <form action="/passenger/trip/<%=@trip.id%>" method="POST">
+                <input type="hidden" name="_method" value="PATCH">
 
                     <div class="form-group">
                         <label for="search-term">Origin: </label>
@@ -42,7 +27,7 @@
                         <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.to%>" name="address[to]">
                     </div>
 
-                    <button type="submit" class="btn btn-outline-primary align-self-center">Hitch A Ride</button>
+                    <input type="submit" class="btn btn-outline-primary align-self-center" value="Update Trip">
                 </form>
             </div>
         </div>

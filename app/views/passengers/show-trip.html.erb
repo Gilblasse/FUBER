@@ -1,0 +1,12 @@
+
+<p><%= @trip.passenger.user.name %></p>
+<p><%= @trip.from %></p>
+<p><%= @trip.to %></p>
+<a href="/passenger/trip/<%=@trip.id%>/edit">Edit</a>
+
+<% if @trip.driver.nil? %>
+    <p> You Dont Have A Driver </p>
+    <a href="/passenger/book-trip/<%=@trip.id%>/driver/new">Select A Driver</a>
+<% else %>
+    <%= @trip.driver.user.name %>
+<% end %>
