@@ -38,6 +38,7 @@
 
 
     <section>
+    <% if !@passenger.trips.empty?  %>
         <% @passenger.trips.each do |trip| %>
             <%= trip.from %>
             <%= trip.to %>
@@ -46,10 +47,19 @@
             <%= !trip.driver.nil? ? trip.driver.user.name.capitalize : "No Driver" %>
             <br>
             <br>
+            
+                <button onclick="window.location.href = '/passenger/trip/<%=trip.id%>';">
+                    <i class="material-icons">remove_red_eye</i>
+                </button>
+                
+
+            
         <% end %>
+
+    <% else %>
+        <h1>NO TRIPS</h1>
+    <%end %>
     </section>
-
-
 
 
 </div>

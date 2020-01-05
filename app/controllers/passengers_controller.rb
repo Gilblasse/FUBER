@@ -23,13 +23,15 @@ class PassengersController < ApplicationController
   get '/passenger/trip/:id/edit' do 
     @passenger = authenticate_user
     @trip = Trip.find(params[:id])
-
+    @drivers = Driver.closest_drivers(@trip.from)
     erb :"/passengers/edit-trip.html"
   end
 
   post "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
     trip = Trip.find(params[:id])
-    trip.update(from: params[:address][:from] ,to: params[:address][:to])
+    driver =  Driver.find(params[:driver_id])
+    trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
+    
     redirect "/passenger/trip/#{params[:id]}"
   end
 

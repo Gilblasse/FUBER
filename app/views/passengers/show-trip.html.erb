@@ -1,8 +1,7 @@
-
+<h1>SHOW PAGE:</h1>
 <p><%= @trip.passenger.user.name %></p>
 <p><%= @trip.from %></p>
 <p><%= @trip.to %></p>
-<a href="/passenger/trip/<%=@trip.id%>/edit">Edit</a>
 
 <% if @trip.driver.nil? %>
     <p> You Dont Have A Driver </p>
@@ -10,3 +9,15 @@
 <% else %>
     <%= @trip.driver.user.name %>
 <% end %>
+
+  <button onclick="window.location.href = '/passenger/trip/<%=@trip.id%>/edit';">
+    <i class="material-icons">clear</i>
+  </button>
+
+  <button onclick="window.location.href = '/passenger/trip/<%=@trip.id%>/edit';">
+        <i class="material-icons">edit</i>
+   </button>
+
+    <button onclick="window.location.href = '/passenger/trip/<%=@trip.id%>';">
+        <i class="material-icons">delete</i>
+    </button>
