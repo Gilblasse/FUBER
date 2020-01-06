@@ -5,6 +5,10 @@ class Driver < ActiveRecord::Base
 
     attr_accessor :leg
 
+    def dashboard
+        '/driver/dashboard'
+    end
+
     def self.closest_drivers(passenger_location)
         five_miles = 26411 #apporximate number of ft in 5 miles
         closest_drivers = self.all.select {|driver| driver.distance_from(passenger_location) }
