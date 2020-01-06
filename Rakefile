@@ -12,10 +12,11 @@ namespace 'db' do
 
     desc "Removes data from tables and resets PK"
     task 'reset!' do 
-        tables = ["users","passengers","drivers","trips"]
-        models = ["User","Passenger","Driver","Trip"]
+        
+        model_files = Dir.entries("app/models")
 
-        klasses = models.map {|model| model.constantize }
+        tables = model_files[2..-1].map{|file| file[0...-3] }
+        klasses = models.map{|model| model.capitalize.constantize }
         klasses.each{|klass| klass.destroy_all }
 
         tables.each do |table|
