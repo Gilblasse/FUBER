@@ -60,11 +60,12 @@ class UsersController < ApplicationController
       
       if user.valid? 
         user.save
-        params[:type] == "passenger" ? user.create_passenger : user.create_driver
+        user.create_type(params[:type])
+      else
+        settings.message[:error] = user.errors.messages
+        settings.message[:email] = params[:user][:email]
+        redirect '/failure'
       end
-      settings.message[:error] = user.errors.messages
-      settings.message[:email] = params[:user][:email]
-      redirect '/failure'
     end
 
 

@@ -6,15 +6,21 @@ class Helpers
 
     def self.current_user(session)
       user = User.find(session[:user_id])
-      Passenger.find_by(user: user) || Driver.find_by(user: user)
+      klasses.find{|klass| klass.find_by(user_id: user.id) }
     end
 
     def self.user_dashboard(session)
       current_user = self.current_user(session)
-
-      route = {"Passenger" => '/passenger/book-trip/new', "Driver" => '/driver/dashboard' }
-      route[current_user.class.to_s]
+      current_user.dashboard
     end
 
+    def self.klasses
+      model_files = Dir.entries("app/models")
+      selected_models = model_files[2..-1].reject{|file| file == "user.rb" }
+      models = selected_models.map{|file| file[0...-3] }
+      klasses = models.map{|model| model.capitalize.constantize }
+
+      klasses.select{|klass| klass.column_names.include? "user_id" }
+    end
 
 end
