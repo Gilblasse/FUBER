@@ -2,7 +2,6 @@ class UsersController < ApplicationController
 
   set :message, {}
 
-
   # Displays Sign Up Page
   get "/signup" do
     @stylesheet_link = "/stylesheets/users/signup.css"
@@ -44,7 +43,12 @@ class UsersController < ApplicationController
 
   get '/failure' do
     redirect '/login' if settings.message[:email].nil?
-    "Email: #{settings.message[:email]}<br>#{settings.message[:error][:email][0]}<br> <a href='/signup'>Sign Up</a>"
+    <<-ERROR_MESG 
+      Email: #{settings.message[:email]}
+      <br>#{settings.message[:error][:email][0]}
+      <br> 
+      <a href='/signup'>Sign Up</a>
+    ERROR_MESG
   end
 
 

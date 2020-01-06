@@ -6,7 +6,7 @@ class Helpers
 
     def self.current_user(session)
       user = User.find(session[:user_id])
-      klasses.find{|klass| klass.find_by(user_id: user.id) }
+      self.klasses.find{|klass| klass.find_by(user: user.id) }.find_by(user: user)
     end
 
     def self.user_dashboard(session)

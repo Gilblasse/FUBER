@@ -18,8 +18,9 @@ namespace 'db' do
         tables = model_files[2..-1].map{|file| file[0...-3] }
         klasses = tables.map{|model| model.capitalize.constantize }
         klasses.each{|klass| klass.destroy_all }
+        tables_pluralize = tables.map{|table| table.pluralize }
 
-        tables.each do |table|
+        tables_pluralize.each do |table|
             ActiveRecord::Base.connection.execute("DELETE from sqlite_sequence where name = '#{table}'")
         end
 

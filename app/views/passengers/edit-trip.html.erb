@@ -40,9 +40,9 @@
     <section>
         <div class="row mt-5">
             <div class=" col-lg-6 offset-lg-3">
-                <form action="/passenger/trip/<%=@trip.id%>" method="POST">
-                <input type="hidden" name="_method" value="PATCH">
-
+                <form action="/passenger/trip/<%=@trip.id%>" method="post">
+                    <input id="hidden" type="hidden" name="_method" value="patch">
+                    
                     <div class="form-group">
                         <label for="search-term">Origin: </label>
                         <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" value="<%=@trip.from%>" name="address[from]">
@@ -87,7 +87,8 @@
                                                     &nbsp;
                                                 <%end%>
                                                 
-                                                <%=driver.leg[:time]%>
+                                                <%#driver.leg[:time]%>
+                                                <%=driver.id %>
                                            
                                             
                                         
@@ -95,15 +96,12 @@
                                 <%end%>
                             <%end%>
 
-
-
-
-                           
                         </select>
                     
                     </div>
 
                     <input type="submit" class="btn btn-outline-primary align-self-center" value="Update Trip">
+                    
                 </form>
             </div>
         </div>

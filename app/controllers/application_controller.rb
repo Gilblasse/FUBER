@@ -10,10 +10,10 @@ class ApplicationController < Sinatra::Base
   end
 
   # 404 Error!
-  not_found do
-    status 404
-    erb :not_found
-  end
+  # not_found do
+  #   status 404
+  #   erb :not_found
+  # end
 
   before do
     # We set this @title instance variable to a default value, so that if any of our pages *don't* want a custom title, something will appear in the <title> tag.
@@ -28,6 +28,15 @@ class ApplicationController < Sinatra::Base
   get "/not-found" do
     @stylesheet_link = "/stylesheets/main.css"
     erb :not_found 
+  end
+
+  patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    trip = Trip.find(params[:id])
+    driver =  Driver.find(params[:driver_id])
+  #  binding.pry
+    trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
+    
+    redirect "/passenger/trip/#{params[:id]}"
   end
  
 

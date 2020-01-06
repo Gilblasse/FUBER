@@ -17,6 +17,7 @@ class Driver < ActiveRecord::Base
 
 
     def distance_from(passenger_location)
+        
         trip = GMAPS.directions(self.current_location,passenger_location,mode: 'driving',alternatives: false)
         distance = trip[0][:legs][0][:distance][:text]
         num = distance.gsub(/[A-Za-z\s]/,"").to_f

@@ -1,5 +1,7 @@
 class PassengersController < ApplicationController
 
+  set :drivers_set, []
+
   # BOOK NEW TRIP FORM
   get "/passenger/book-trip/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
@@ -15,25 +17,27 @@ class PassengersController < ApplicationController
     redirect "/passenger/book-trip/#{trip.id}/driver/new"
   end
 
-  # post '/passenger/trip/2' do
-  #   "Hello World"
-  # end
+
+  
 
   # EDIT A TRIP  -  PRESENT UPDATE FORM
   get '/passenger/trip/:id/edit' do 
     @passenger = authenticate_user
     @trip = Trip.find(params[:id])
     @drivers = Driver.closest_drivers(@trip.from)
+    # @drivers = settings.drivers_set
     erb :"/passengers/edit-trip.html"
   end
 
-  post "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+  patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
     trip = Trip.find(params[:id])
-    driver =  Driver.find(params[:driver_id])
+    driver =  Driver.find_by(params[:driver_id])
+    binding.pry
     trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
     
     redirect "/passenger/trip/#{params[:id]}"
   end
+
 
 
 
@@ -52,6 +56,9 @@ class PassengersController < ApplicationController
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user 
     @trip = Trip.find(params[:id])
+    # Trip.distance_from(@trip.from,settings.drivers_set)
+    
+    # @drivers = settings.drivers_set
     @drivers = Driver.closest_drivers(@trip.from)
     @trip_leg = GMAPS.directions(@trip.from, @trip.to, mode: 'driving',alternatives: false)
 

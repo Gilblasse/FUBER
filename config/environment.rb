@@ -10,7 +10,7 @@ ActiveRecord::Base.establish_connection(
 
 require './app/controllers/application_controller'
 require_all 'app'
-
+require 'ostruct'
 
 # Setup global parameters
 API_KEY = "AIzaSyBaJUNgMSEae4z_X1lRQI-2PjqwfamHNOk"
