@@ -167,7 +167,7 @@
 
 
             var miles = <%= @miles %>
-            var zoomCalc = Math.floor(Math.log2(97.27130 * Math.cos(<%= @passenger_start %>.lat * Math.PI / 180) * 500 / miles))
+            var zoomCalc = Math.floor(Math.log2(97.27130 * Math.cos( ((<%= @passenger_start %>.lat + <%=@passenger_end%>.lat)/2) * Math.PI / 180) * 500 / miles))
             var zoom = zoomCalc;   
             var startingPosition = {zoom: zoom, center: <%= @passenger_start %> };
             
