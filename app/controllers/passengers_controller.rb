@@ -26,17 +26,18 @@ class PassengersController < ApplicationController
     @trip = Trip.find(params[:id])
     @drivers = Driver.closest_drivers(@trip.from)
     # @drivers = settings.drivers_set
+
     erb :"/passengers/edit-trip.html"
   end
 
   patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    # binding.pry
     trip = Trip.find(params[:id])
-    driver =  Driver.find_by(params[:driver_id])
-    binding.pry
-    trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
+    trip.update(Hash[params.to_a[1..-2]])
     
     redirect "/passenger/trip/#{params[:id]}"
   end
+
 
   delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
     trip = Trip.find(params[:id]).delete

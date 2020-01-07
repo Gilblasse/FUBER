@@ -34,10 +34,6 @@ class ApplicationController < Sinatra::Base
     trip = Trip.find(params[:id])
     trip.update(Hash[params.to_a[1..-2]])
 
-  #   driver =  Driver.find(params[:driver_id])
-  # #  binding.pry
-  #   trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
-    
     redirect "/passenger/trip/#{params[:id]}"
   end
 
