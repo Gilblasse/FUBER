@@ -1,3 +1,4 @@
+<%status = @trip.status == "canceled" || @trip.status != "pending" ? "disabled" : "" %>
 <div class="container">
  <style>
     .bg-for-nav {
@@ -45,12 +46,12 @@
                     
                     <div class="form-group">
                         <label for="search-term">Origin: </label>
-                        <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" value="<%=@trip.from%>" name="address[from]">
+                        <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" value="<%=@trip.from%>" name="from" <%=status%>>
                     </div>
 
                     <div class="form-group">
                         <label for="where-to">Destination: </label>
-                        <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.to%>" name="address[to]">
+                        <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.to%>" name="to" <%=status%>>
                     </div>
 
                     <div class="input-group mb-3">
@@ -58,7 +59,7 @@
                             <label class="input-group-text" for="drivers">Driver</label>
                         </div>
 
-                        <select class="custom-select"  id="drivers" name="driver_id">
+                        <select class="custom-select"  id="drivers" name="driver_id" <%=status%>>
                             
                             <% if @trip.driver.nil? %>
                             
@@ -87,11 +88,8 @@
                                                     &nbsp;
                                                 <%end%>
                                                 
-                                                <%#driver.leg[:time]%>
-                                                <%=driver.id %>
-                                           
-                                            
-                                        
+                                                <%=driver.leg[:time]%>                            
+                                                
                                     </option>
                                 <%end%>
                             <%end%>
@@ -100,7 +98,7 @@
                     
                     </div>
 
-                    <input type="submit" class="btn btn-outline-primary align-self-center" value="Update Trip">
+                    <input type="submit" class="btn btn-outline-primary align-self-center" value="Update Trip" <%=status%>>
                     
                 </form>
             </div>

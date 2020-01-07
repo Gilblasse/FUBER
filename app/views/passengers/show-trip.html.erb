@@ -2,22 +2,26 @@
 <p><%= @trip.passenger.user.name %></p>
 <p><%= @trip.from %></p>
 <p><%= @trip.to %></p>
+<p><%= @trip.status %></p>
 
 <% if @trip.driver.nil? %>
-    <p> You Dont Have A Driver </p>
-    <a href="/passenger/book-trip/<%=@trip.id%>/driver/new">Select A Driver</a>
+  <p> You Dont Have A Driver </p>
+  <a href="/passenger/book-trip/<%=@trip.id%>/driver/new">Select A Driver</a>
 <% else %>
-    <%= @trip.driver.user.name %>
+  <%= @trip.driver.user.name %>
 <% end %>
 
+ <form action="/passenger/trip/<%=@trip.id%>" method="post">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+    <input type="hidden" name="status" value="canceled">
+    <button type="submit"><i class="material-icons">clear</i></button>
+ </form>
+
   <button onclick="window.location.href = '/passenger/trip/<%=@trip.id%>/edit';">
-    <i class="material-icons">clear</i>
+    <i class="material-icons">edit</i>
   </button>
 
-  <button onclick="window.location.href = '/passenger/trip/<%=@trip.id%>/edit';">
-        <i class="material-icons">edit</i>
-   </button>
-
-    <button onclick="window.location.href = '/passenger/trip/<%=@trip.id%>';">
-        <i class="material-icons">delete</i>
-    </button>
+  <form action="/passenger/trip/<%=@trip.id%>" method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <button type="submit"><i class="material-icons">delete</i></button>
+  </form>

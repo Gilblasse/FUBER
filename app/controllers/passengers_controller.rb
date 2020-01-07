@@ -38,6 +38,13 @@ class PassengersController < ApplicationController
     redirect "/passenger/trip/#{params[:id]}"
   end
 
+  delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    trip = Trip.find(params[:id]).delete
+    binding.pry
+    
+    redirect "/passenger/trips"
+  end
+
 
 
 

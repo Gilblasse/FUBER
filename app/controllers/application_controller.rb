@@ -32,11 +32,18 @@ class ApplicationController < Sinatra::Base
 
   patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
     trip = Trip.find(params[:id])
-    driver =  Driver.find(params[:driver_id])
-  #  binding.pry
-    trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
+    trip.update(Hash[params.to_a[1..-2]])
+
+  #   driver =  Driver.find(params[:driver_id])
+  # #  binding.pry
+  #   trip.update(from: params[:address][:from] ,to: params[:address][:to],driver: driver)
     
     redirect "/passenger/trip/#{params[:id]}"
+  end
+
+  delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    Trip.find(params[:id]).delete
+    redirect "/passenger/trips"
   end
  
 
