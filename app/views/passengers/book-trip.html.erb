@@ -31,17 +31,19 @@
             <div class=" col-lg-6 offset-lg-3">
                 <form action="/passenger/book-trip" method="POST">
 
-                    <div class="form-group">
-                        <label for="search-term">Origin: </label>
-                        <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" name="address[from]">
+                    <div class="animated flipInX fast">
+                        <div class="form-group">
+                            <label for="search-term">Origin: </label>
+                            <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" name="address[from]">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="where-to">Destination: </label>
+                            <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" name="address[to]">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="where-to">Destination: </label>
-                        <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" name="address[to]">
-                    </div>
-
-                    <button type="submit" class="btn btn-outline-primary align-self-center">Hitch A Ride</button>
+                    <button type="submit" class="btn btn-outline-primary align-self-center animated fadeIn delay-1s">Hitch A Ride</button>
                 </form>
             </div>
         </div>

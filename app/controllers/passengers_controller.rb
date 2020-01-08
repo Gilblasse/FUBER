@@ -30,33 +30,22 @@ class PassengersController < ApplicationController
     erb :"/passengers/edit-trip.html"
   end
 
-  patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
-    # binding.pry
-    trip = Trip.find(params[:id])
-    trip.update(Hash[params.to_a[1..-2]])
+  # patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+  #   # binding.pry
+  #   trip = Trip.find(params[:id])
+  #   trip.update(Hash[params.to_a[1..-2]])
     
-    redirect "/passenger/trip/#{params[:id]}"
-  end
+  #   redirect "/passenger/trip/#{params[:id]}"
+  # end
 
 
-  delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
-    trip = Trip.find(params[:id]).delete
-    binding.pry
+  # delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+  #   trip = Trip.find(params[:id]).delete
+  #   binding.pry
     
-    redirect "/passenger/trips"
-  end
+  #   redirect "/passenger/trips"
+  # end
 
-
-
-
-  # SHOW TRIP 
-  get '/passenger/trip/:id' do 
-    @stylesheet_link = "/stylesheets/passengers/dashboard.css"
-    authenticate_user
-    @trip = Trip.find(params[:id])
-    
-    erb :"/passengers/show-trip.html"
-  end
 
 
   # BOOK NEW DRIVER  - PRESENTING FORM
@@ -82,6 +71,17 @@ class PassengersController < ApplicationController
     redirect "/passenger/trips"
   end
 
+
+    # SHOW TRIP 
+    get '/passenger/trip/:id' do 
+      @stylesheet_link = "/stylesheets/passengers/dashboard.css"
+      authenticate_user
+      @trip = Trip.find(params[:id])
+      
+      erb :"/passengers/show-trip.html"
+    end
+  
+
     # SHOW ALL TRIPS 
     get '/passenger/trips' do 
       # binding.pry
@@ -93,30 +93,7 @@ class PassengersController < ApplicationController
 
 
 
-
-
-
-  # GET: /passengers/5
-  get "/passengers/:id" do
-    erb :"/passengers/show.html"
-  end
-
-  # GET: /passengers/5/edit
-  get "/passengers/:id/edit" do
-    erb :"/passengers/edit.html"
-  end
-
-  # PATCH: /passengers/5
-  patch "/passengers/:id" do
-    redirect "/passengers/:id"
-  end
-
-  # DELETE: /passengers/5/delete
-  delete "/passengers/:id/delete" do
-    redirect "/passengers"
-  end
-
-
+    
   helpers do 
 
     def authenticate_user

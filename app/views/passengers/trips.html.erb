@@ -1,3 +1,6 @@
+<%history_trips = @passenger.trips.reject{|trip| trip.status == "In route" || trip.status == "pending" }%>
+<%active_trips = @passenger.trips.reject{|trip| trip.status == "canceled" || trip.status == "completed" }%>
+
 <style>
     .bg-for-nav {
         background-color: #39374d !important;
@@ -6,6 +9,59 @@
         font-size: 45px !important;
         color: #fff;
     }
+
+    .hidden-btn-container{
+        position: relative;
+    }
+
+    a.btn {
+         visibility: hidden;
+    }
+
+    tr:hover a {
+         visibility: visible;
+    }
+
+    tbody tr:hover{
+        background-color: #f1f1f1;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 450px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .table-header {
+        max-width: 1025px;
+    }
+
+    .table-center {
+        
+    }
+    
+    /* .table-wrapper-scroll-y:-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        background-color: #F5F5F5;
+        border-radius: 5px;
+    }
+
+    .table-wrapper-scroll-y::-webkit-scrollbar
+    {
+        width: 6px;
+        background-color: #F5F5F5;
+    }
+
+    .table-wrapper-scroll-y::-webkit-scrollbar-thumb
+    {
+        background-color: rgba(108,117,126, 0.5);
+        border-radius: 5px;
+    } */
 
 </style>
 
@@ -34,31 +90,127 @@
         <i class="material-icons profile-img">account_circle</i>
     </nav>
 
-    
-
-
     <section>
-    <% if !@passenger.trips.empty?  %>
-        <% @passenger.trips.each do |trip| %>
-            <%= trip.from %>
-            <%= trip.to %>
-            <%= trip.status %>
-            
-            <%= !trip.driver.nil? ? trip.driver.user.name.capitalize : "No Driver" %>
-            <br>
-            <br>
-            
-                <button onclick="window.location.href = '/passenger/trip/<%=trip.id%>';">
-                    <i class="material-icons">remove_red_eye</i>
-                </button>
-                
 
-            
-        <% end %>
+        <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
 
-    <% else %>
-        <h1>NO TRIPS</h1>
-    <%end %>
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Active</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">History</a>
+            </li>
+
+        </ul>
+        
+        
+        <div class="tab-content" id="myTabContent">
+
+            <div class="tab-pane fade show active table-center" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <% if !active_trips.empty?  %>
+                    <table class="table mt-5 table-header">
+                        <thead>
+                            <tr>
+                                <th scope="col">WHERE FROM</th>
+                                <th scope="col">WHERE TO</th>
+                                <%# <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp</th> %>
+                                <%# <th scope="col">&nbsp</th> %>
+                                <th scope="col">DRIVER</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="table mt-3 table-wrapper-scroll-y my-custom-scrollbar ">
+                       
+                        <tbody class="animated fadeIn slow">
+                        
+                            <% active_trips.each do |trip| %>  
+                                <%status_color = {
+                                    "canceled" =>  "badge-danger",
+                                    "pending" => "badge-secondary",
+                                    "in route" => "badge-warning"
+                                }%>              
+                                <tr>
+                                    <td><%= trip.from %></td>
+                                    <td><%= trip.to %></td>
+                                    <td><span class="badge <%= status_color[trip.status] %> badge-pill"><%= trip.status %></span></td>
+                                    <td class="text-muted"><%= !trip.driver.nil? ? trip.driver.user.name.capitalize : "No Driver" %></td>
+
+                                    <td class="hidden-btn-container">
+                                        <a class="btn btn-primary" href="/passenger/trip/<%=trip.id%>"><i class="material-icons">remove_red_eye</i></a>
+                                    </td>
+                                </tr>
+                            <% end %>
+
+                        </tbody>
+                    </table>
+
+
+
+                <% else %>
+                    <h1>NO TRIPS</h1>
+                <%end %>
+
+
+            </div>
+
+
+
+
+
+            <%# HISTORY %>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="tab-content" id="myTabContent">
+
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <% if !history_trips.empty?  %>
+                    <table class="table mt-5 table-header">
+                        <thead>
+                            <tr>
+                                <th scope="col">WHERE FROM</th>
+                                <th scope="col">WHERE TO</th>
+                                <%# <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp</th> %>
+                                <%# <th scope="col">&nbsp</th> %>
+                                <th scope="col">DRIVER</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <table class="table mt-3 table-wrapper-scroll-y my-custom-scrollbar ">
+                       
+                        <tbody class="animated fadeIn slow">
+                        
+                            <% history_trips.each do |trip| %>  
+                                <%status_color = {
+                                    "canceled" =>  "badge-danger",
+                                    "pending" => "badge-secondary",
+                                    "in route" => "badge-warning"
+                                }%>              
+                                <tr>
+                                    <td><%= trip.from %></td>
+                                    <td><%= trip.to %></td>
+                                    <td><span class="badge <%= status_color[trip.status] %> badge-pill"><%= trip.status %></span></td>
+                                    <td class="text-muted"><%= !trip.driver.nil? ? trip.driver.user.name.capitalize : "No Driver" %></td>
+
+                                    <td class="hidden-btn-container">
+                                        <a class="btn btn-primary" href="/passenger/trip/<%=trip.id%>"><i class="material-icons">remove_red_eye</i></a>
+                                    </td>
+                                </tr>
+                            <% end %>
+
+                        </tbody>
+                    </table>
+
+
+
+                <% else %>
+                    <h1>NO TRIPS</h1>
+                <%end %>
+
+            </div>
+        
+        </div>
+
+        
     </section>
 
 
