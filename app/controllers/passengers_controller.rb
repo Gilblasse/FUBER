@@ -16,8 +16,6 @@ class PassengersController < ApplicationController
 
     redirect "/passenger/book-trip/#{trip.id}/driver/new"
   end
-
-
   
 
   # EDIT A TRIP  -  PRESENT UPDATE FORM
@@ -30,21 +28,18 @@ class PassengersController < ApplicationController
     erb :"/passengers/edit-trip.html"
   end
 
-  # patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
-  #   # binding.pry
-  #   trip = Trip.find(params[:id])
-  #   trip.update(Hash[params.to_a[1..-2]])
+  patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    trip = Trip.find(params[:id])
+    trip.update(Hash[params.to_a[1..-2]])
     
-  #   redirect "/passenger/trip/#{params[:id]}"
-  # end
+    redirect "/passenger/trip/#{params[:id]}"
+  end
 
 
-  # delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
-  #   trip = Trip.find(params[:id]).delete
-  #   binding.pry
-    
-  #   redirect "/passenger/trips"
-  # end
+  delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+    trip = Trip.find(params[:id]).destroy
+    redirect "/passenger/trips"
+  end
 
 
 
@@ -82,7 +77,7 @@ class PassengersController < ApplicationController
     end
   
 
-    # SHOW ALL TRIPS 
+    # ALL TRIPS 
     get '/passenger/trips' do 
       # binding.pry
       @passenger = authenticate_user

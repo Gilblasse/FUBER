@@ -10,10 +10,10 @@ class ApplicationController < Sinatra::Base
   end
 
   # 404 Error!
-  # not_found do
-  #   status 404
-  #   erb :not_found
-  # end
+  not_found do
+    status 404
+    erb :not_found
+  end
 
   before do
     # We set this @title instance variable to a default value, so that if any of our pages *don't* want a custom title, something will appear in the <title> tag.
@@ -30,17 +30,17 @@ class ApplicationController < Sinatra::Base
     erb :not_found 
   end
 
-  patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
-    trip = Trip.find(params[:id])
-    trip.update(Hash[params.to_a[1..-2]])
+  # patch "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+  #   trip = Trip.find(params[:id])
+  #   trip.update(Hash[params.to_a[1..-2]])
 
-    redirect "/passenger/trip/#{params[:id]}"
-  end
+  #   redirect "/passenger/trip/#{params[:id]}"
+  # end
 
-  delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
-    Trip.find(params[:id]).delete
-    redirect "/passenger/trips"
-  end
+  # delete "/passenger/trip/:id" do        # UPDATE TRIP |  Needs to be a Patch however for some reason patch is not working.
+  #   Trip.find(params[:id]).delete
+  #   redirect "/passenger/trips"
+  # end
  
 
 end
