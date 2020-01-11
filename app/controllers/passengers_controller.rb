@@ -86,6 +86,29 @@ class PassengersController < ApplicationController
   
 
 
+    # ALL REVIEWS
+    get '/passenger/reviews' do 
+      @stylesheet_link = "/stylesheets/passengers/dashboard.css"
+      @passenger = authenticate_user
+      erb :"/passengers/reviews.html"
+    end
+
+
+    # SHOW REVEIW
+    get '/passenger/reviews/:id' do 
+      @stylesheet_link = "/stylesheets/passengers/dashboard.css"
+      @passenger = authenticate_user
+      @review = Review.find(params[:id])
+      erb :"/passengers/show_review.html"
+    end
+
+
+    
+
+
+
+
+
 
 
     

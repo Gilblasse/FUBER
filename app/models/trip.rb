@@ -1,6 +1,8 @@
 class Trip < ActiveRecord::Base
     belongs_to :driver
     belongs_to :passenger
+    has_many :reviews 
+
 
     def self.measure
         distance = @trip[0][:legs][0][:distance][:text]

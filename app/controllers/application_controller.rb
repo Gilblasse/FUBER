@@ -10,10 +10,10 @@ class ApplicationController < Sinatra::Base
   end
 
   # 404 Error!
-  not_found do
-    status 404
-    erb :not_found
-  end
+  # not_found do
+  #   status 404
+  #   erb :not_found
+  # end
 
   before do
     # We set this @title instance variable to a default value, so that if any of our pages *don't* want a custom title, something will appear in the <title> tag.
