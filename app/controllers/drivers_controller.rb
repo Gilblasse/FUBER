@@ -16,11 +16,17 @@ class DriversController < ApplicationController
   get "/driver/dashboard" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @driver = authenticate_user
-    map = GMAPS.directions(@driver.current_location,"181 mansion st poughkeepsie ny",mode: 'driving',alternatives: false)
-    @driver_coord = map[0][:legs][0][:start_location]
 
-    @trips = @driver.trips.detect{|trip| trip.status == "pending"}
-    erb :"/drivers/dashboard.html"
+    if @driver.is_available?
+      map = GMAPS.directions(@driver.current_location,"181 mansion st poughkeepsie ny",mode: 'driving',alternatives: false)
+      @driver_coord = map[0][:legs][0][:start_location]
+      
+      @trips = @driver.trips.detect{|trip| trip.status == "pending"}
+      erb :"/drivers/dashboard.html"
+    else 
+      trip = @driver.current_trip
+      redirect "/driver/trips/#{trip.id}"
+    end
   end
 
   post "/driver/dashboard/notification/:id/dismiss" do

@@ -6,8 +6,14 @@ class PassengersController < ApplicationController
   get "/passenger/book-trip/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user  
+    @active_trips = @passenger.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }
     
-    erb :"/passengers/book-trip.html"
+    if @active_trips.empty?
+      erb :"/passengers/book-trip.html"
+    else
+      redirect "/passenger/trip/#{@active_trips[0].id}" 
+    end
+    
   end
 
   post "/passenger/book-trip" do      # CREATED NEW TRIP
@@ -22,9 +28,7 @@ class PassengersController < ApplicationController
   get '/passenger/trip/:id/edit' do 
     @passenger = authenticate_user
     @trip = Trip.find(params[:id])
-    @drivers = Driver.closest_drivers(@trip.from)
-    # @drivers = settings.drivers_set
-
+    
     erb :"/passengers/edit-trip.html"
   end
 

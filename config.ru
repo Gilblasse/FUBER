@@ -6,7 +6,6 @@ if ActiveRecord::Migrator.needs_migration?
 end
 
 use Rack::MethodOverride
-use TripsController
 use DriversController
 use PassengersController
 use UsersController

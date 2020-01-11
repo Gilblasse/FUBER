@@ -1,4 +1,4 @@
-<%history_trips = @driver.trips.select{|trip| trip.status == "completed" || trip.status == "canceled" }%>
+<%history_trips = @driver.trips.select{|trip| trip.status == "completed" || trip.status == "canceled" }.reverse%>
 <%active_trip = @driver.trips.find{|trip| trip.status == "in route"}%>
 
 <style>

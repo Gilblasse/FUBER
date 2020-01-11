@@ -1,5 +1,5 @@
-<%history_trips = @passenger.trips.reject{|trip| trip.status == "In route" || trip.status == "pending" }%>
-<%active_trips = @passenger.trips.reject{|trip| trip.status == "canceled" || trip.status == "completed" }%>
+<%history_trips = @passenger.trips.select{|trip| trip.status.downcase == "completed" || trip.status.downcase == "canceled" }%>
+<%active_trips = @passenger.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }%>
 
 <style>
     .bg-for-nav {
@@ -85,6 +85,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/passenger/reviews">Reviews</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
             </ul>
         </div>
         <i class="material-icons profile-img">account_circle</i>
@@ -128,7 +131,8 @@
                                 <%status_color = {
                                     "canceled" =>  "badge-danger",
                                     "pending" => "badge-secondary",
-                                    "in route" => "badge-warning"
+                                    "in route" => "badge-warning",
+                                    "completed" => "badge-success",
                                 }%>              
                                 <tr>
                                     <td><%= trip.from %></td>
@@ -183,12 +187,13 @@
                                 <%status_color = {
                                     "canceled" =>  "badge-danger",
                                     "pending" => "badge-secondary",
-                                    "in route" => "badge-warning"
+                                    "in route" => "badge-warning",
+                                    "completed" => "badge-success",
                                 }%>              
                                 <tr>
                                     <td><%= trip.from %></td>
                                     <td><%= trip.to %></td>
-                                    <td><span class="badge <%= status_color[trip.status] %> badge-pill"><%= trip.status %></span></td>
+                                    <td><span class="badge <%= status_color[trip.status.downcase] %> badge-pill"><%= trip.status %></span></td>
                                     <td class="text-muted"><%= !trip.driver.nil? ? trip.driver.user.name.capitalize : "No Driver" %></td>
 
                                     <td class="hidden-btn-container">

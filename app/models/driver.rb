@@ -22,10 +22,18 @@ class Driver < ActiveRecord::Base
 
     def self.closest_drivers(passenger_location)
         five_miles = 26411 #apporximate number of ft in 5 miles
-        closest_drivers = self.all.select {|driver| driver.distance_from(passenger_location) }
+        active_drivers = self.all.select {|driver| driver.is_available? }
+        closest_drivers = active_drivers.select {|driver| driver.distance_from(passenger_location) }
         closest_drivers.sort_by { |driver| driver.leg[:ft]}
     end
 
+    def is_available?
+        self.trips.all?{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" || trip.status.downcase == "pending"}
+    end
+
+    def current_trip
+        self.trips.detect{|trip| trip.status.downcase == "in route" || trip.status.downcase == "arrived"}
+    end
 
     def distance_from(passenger_location)
         
