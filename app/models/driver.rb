@@ -1,10 +1,10 @@
 class Driver < ActiveRecord::Base
     belongs_to :user
-    has_many :trips, -> { readonly }
+    has_many :trips
     has_many :passengers, :through => :trips
     has_many :reviews, as: :reviewable
 
-    attr_accessor :leg
+    attr_accessor :leg, :driving_instructions
 
     def dashboard
         '/driver/dashboard'
@@ -30,11 +30,14 @@ class Driver < ActiveRecord::Base
     def distance_from(passenger_location)
         
         trip = GMAPS.directions(self.current_location,passenger_location,mode: 'driving',alternatives: false)
+        
         distance = trip[0][:legs][0][:distance][:text]
         num = distance.gsub(/[A-Za-z\s]/,"").to_f
         measurement = distance.scan(/([A-Za-z])/).join
 
         calc = {"ft"=> num,"mi"=> num * 5280} #converts everthing to feet
+
+        @driving_instructions = trip[0][:legs][0][:steps].map.with_index(1) {|step,i| "#{i}. #{step[:html_instructions]}" }
         
         @leg = {
             ft: calc[measurement], 

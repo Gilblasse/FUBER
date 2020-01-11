@@ -1,0 +1,72 @@
+<%status = {"in route" => "arrived", "arrived" => "completed","canceled" => "canceled","completed" => "completed"}%>
+<%active_trip = @driver.trips.find{|trip| trip.status == "in route"}%>
+
+<style>
+    .trip-wrapper{
+        border: solid black 2px;
+        max-width:600px;
+    }
+</style>
+
+
+<div class="container trip-wrapper mt-5">
+    <h1>Active Trip:</h1>
+    Passenger: <%= @trip.passenger.user.name %>
+    <br>
+    <%= @trip.status.capitalize %>: <%= @trip.from %>
+    <br>
+    
+    <div style="display:flex;">
+        <a class="btn btn-secondary my-5" href='http://maps.google.com/maps/dir/<%=@trip.driver.current_location%>/<%=@trip.from%>'>Google Maps</a>
+
+      <%if @trip.status != "completed" && @trip.status != "canceled"%>
+      
+        <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/<%=status[@trip.status]%>/edit" method="POST">
+            <input type="hidden" name="_method" value="PATCH">
+            <input type="submit" class="btn btn-primary" value="<%=status[@trip.status].capitalize%>">
+        </form>
+
+        <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/canceled/edit" method="POST">
+            <input type="hidden" name="_method" value="PATCH">
+            <input type="submit" class="btn btn-danger" value="Cancel">
+        </form>
+
+      <%end%>
+
+    </div>
+
+    <!--Accordion wrapper-->
+<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+  <!-- Accordion card -->
+  <div class="card">
+
+    <!-- Card header -->
+    <div class="card-header rgba-stylish-strong z-depth-1 mb-1" role="tab" id="headingOne1">
+      <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+        aria-controls="collapseOne1">
+        <h5 class="mb-0">
+          Directions <i class="fas fa-angle-down rotate-icon"></i>
+        </h5>
+      </a>
+    </div>
+
+    <!-- Card body -->
+    <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+      data-parent="#accordionEx">
+      <div class="card-body">
+
+        <% @instructions.each  do |direction| %>
+            <%= direction %>
+            <br>
+        <%end%>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
+
+

@@ -1,7 +1,7 @@
 <% 
     @passenger_start = @trip_leg[0][:legs][0][:start_location].to_json
     @passenger_end = @trip_leg[0][:legs][0][:end_location].to_json
-    meters = @trip_leg[0][:legs][0][:distance][:value]  
+    meters = @trip_leg[0][:legs][0][:distance][:value]      
     feet = meters * 3.281
     @miles = (feet / 5280).ceil()
 %>
