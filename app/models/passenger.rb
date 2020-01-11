@@ -18,4 +18,8 @@ class Passenger < ActiveRecord::Base
         passenger_review
     end
 
+    def active_trips
+        self.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }
+    end
+
 end

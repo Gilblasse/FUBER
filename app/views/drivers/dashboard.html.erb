@@ -49,6 +49,8 @@
                 <form action="/driver/dashboard/notification/<%=trips.first.id%>/accept" method="POST">
                     <input type="submit" value="Accept">
                 </form>
+            <%else%>
+                <h3 class="text-muted">No Trips Requested</h3>
             <%end%>
         </div>
 

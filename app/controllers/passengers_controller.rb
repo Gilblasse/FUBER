@@ -6,8 +6,8 @@ class PassengersController < ApplicationController
   get "/passenger/book-trip/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user  
-    @active_trips = @passenger.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }
-    
+    @active_trips = @passenger.active_trips 
+
     if @active_trips.empty?
       erb :"/passengers/book-trip.html"
     else
@@ -18,9 +18,12 @@ class PassengersController < ApplicationController
 
   post "/passenger/book-trip" do      # CREATED NEW TRIP
     passenger = authenticate_user 
-    trip = passenger.trips.create(params[:address])
-
-    redirect "/passenger/book-trip/#{trip.id}/driver/new"
+    if params[:address].any?{|k,v| v.empty?}
+      redirect "/passenger/book-trip/new"
+    else
+      trip = passenger.trips.create(params[:address])
+      redirect "/passenger/book-trip/#{trip.id}/driver/new"
+    end
   end
   
 
