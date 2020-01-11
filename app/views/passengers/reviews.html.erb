@@ -1,0 +1,122 @@
+<style>
+    .tab-wrapper{
+        height:70px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .tabs-orange{
+        width: 375px;
+    }
+
+    div ul li.nav-item:hover > .waves-light {
+        border-bottom: solid #007bff 3px;
+        color: grey;
+    }
+    .waves-light{
+        color:#c2c8cc;
+    }
+
+    a.active{
+        border-bottom: solid #007bff 3px;
+        color:#495057;
+    }
+
+    div.active{
+        border-bottom: none
+    }
+
+</style>
+
+
+<%# NAVIGATION BAR %>
+<nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
+        <div class="d-flex w-50 order-0">
+            <a class="navbar-brand mr-1" href="#">Welcome, <%= @passenger.user.name %></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse justify-content-center order-2" id="collapsingNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/passenger/book-trip/new">Book Trip</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/passenger/trips">Trips</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/passenger/reviews">Reviews</a>
+                </li>
+            </ul>
+        </div>
+        <i class="material-icons profile-img">account_circle</i>
+    </nav>
+
+
+
+
+
+
+
+
+<%# REVIEW OPTION TABS %>
+<div class="classic-tabs mx-2">
+
+    <div class="tab-wrapper">
+        <ul class="nav tabs-orange" id="myClassicTabOrange" role="tablist">
+
+            <li class="nav-item">
+                <a class="nav-link  waves-light active show" id="profile-tab-classic-orange" data-toggle="tab" href="#profile-classic-orange"
+                    role="tab" aria-controls="profile-classic-orange" aria-selected="true"><i class="fas fa-user fa-2x pb-2"
+                    aria-hidden="true"></i><br>Reviews</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="follow-tab-classic-orange" data-toggle="tab" href="#follow-classic-orange"
+                    role="tab" aria-controls="follow-classic-orange" aria-selected="false"><i class="fas fa-heart fa-2x pb-2"
+                    aria-hidden="true"></i><br>Reviewed</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link waves-light" id="add-review-tab" data-toggle="tab" href="#add-review"
+                    role="tab" aria-controls="add-review" aria-selected="false"><i class="fas fa-heart fa-2x pb-2"
+                    aria-hidden="true"></i><br>Add Review</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="tab-content card" id="myClassicTabContentOrange">
+
+        <%# REVIEWS %>
+        <div class="tab-pane fade active show" id="profile-classic-orange" role="tabpanel" aria-labelledby="profile-tab-classic-orange">
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
+                totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta
+                sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia
+                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
+                dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora
+                incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        </div>
+
+
+        <%# REVIEWED %>
+        <div class="tab-pane fade" id="follow-classic-orange" role="tabpanel" aria-labelledby="follow-tab-classic-orange">
+            <p>
+                <%if !@passenger.reviews.empty?%>
+                    <%@passenger.reviews.each do |review|%>
+                        comment: <%= review.comment %>
+                        <br>
+                        rated driver: <%= review.stars %>
+                    <%end%>
+                <%else%>
+                    No Reviews Posted
+                <%end %>
+            </p>
+        </div>
+
+        
+
+    </div>
+
+</div>
