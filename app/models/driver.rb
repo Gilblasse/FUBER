@@ -11,13 +11,32 @@ class Driver < ActiveRecord::Base
     end
 
     def add_review(trip_id,comment,stars=0)
+        stars = stars.to_i
         trip = Trip.find(trip_id)
-        return "You already made a review" if trip.reviews.any?{|review| review.reviewable == self }
-        return "Star count must be a number between 0 - 5" if !stars.between? 0,5
+
+        return nil if !stars.between? 0,5
 
         driver_review = self.reviews.create(comment: comment, stars: stars)
         trip.reviews << driver_review
         driver_review
+    end
+
+    def reviewed?(trip)
+        trip.reviews.any?{|review| review.reviewable == self }
+    end
+
+    def rating 
+        stars = passenger_reviews.map{|r| r.stars}
+        total = stars.reduce{|star,sum| star + sum }
+        if total
+            avg = (total.to_f / stars.size).ceil(2)
+        else
+            5
+        end
+    end
+
+    def passenger_reviews 
+        self.trips.map{|trip| trip.reviews.select{|review| review.reviewable == trip.passenger }}.flatten
     end
 
     def self.closest_drivers(passenger_location)

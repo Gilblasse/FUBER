@@ -18,6 +18,20 @@ class Passenger < ActiveRecord::Base
         passenger_review
     end
 
+    def rating 
+        stars = driver_reviews.map{|r| r.stars}
+        total = stars.reduce{|star,sum| star + sum }
+        if total
+            avg = (total.to_f / stars.size).ceil(2)
+        else
+            5
+        end
+    end
+
+    def driver_reviews 
+        self.trips.map{|trip| trip.reviews.select{|review| review.reviewable == trip.driver }}.flatten
+    end
+
     def active_trips
         self.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }
     end

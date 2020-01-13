@@ -1,17 +1,5 @@
 class DriversController < ApplicationController
 
-  patch "/driver/trips/:id/:status/edit" do 
-    trip = Trip.find(params[:id])
-    trip.status = params[:status]
-    trip.save 
-    
-    if params[:status] == "completed" || params[:status] =="canceled"
-      redirect "/driver/dashboard"
-    else
-      redirect "/driver/trips/#{params[:id]}"
-    end
-  end
-
   # GET: /drivers
   get "/driver/dashboard" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
@@ -65,6 +53,21 @@ class DriversController < ApplicationController
   end
 
 
+  patch "/driver/trips/:id/:status/edit" do 
+    trip = Trip.find(params[:id])
+    trip.status = params[:status]
+    trip.save 
+    redirect "/driver/reviews/#{params[:id]}" if params[:status] == "completed"
+
+    if params[:status] == "completed" || params[:status] =="canceled"
+      redirect "/driver/dashboard"
+    else
+      redirect "/driver/trips/#{params[:id]}"
+    end
+  end
+
+
+  # SHOW ALL DRIVER TRIPS 
   get "/driver/trips" do 
     @driver = authenticate_user
     erb :"/drivers/trips.html"
@@ -73,6 +76,33 @@ class DriversController < ApplicationController
 
 
 
+  ##########################
+      # REVIEW SECTION
+  ##########################
+
+# SHOW FORM TO CREATE NEW REVIEW 
+  get "/driver/reviews/:id" do 
+    authenticate_user
+    @trip = Trip.find_by(id: params[:id])
+
+    erb :"/drivers/new_review.html"
+  end
+
+  # Create A Review 
+  post "/driver/reviews" do
+    trip = Trip.find_by(id: params[:trip_id])
+    if !trip.driver.reviewed?(trip) && !params[:comment].empty?
+      trip.driver.add_review(trip.id,params[:comment],params[:stars][0])
+    end
+
+    redirect "/driver/dashboard"
+  end
+
+  # SHOW ALL REVIEWS
+  get "/driver/reviews" do 
+    @driver = authenticate_user
+    erb :"/drivers/reviews.html"
+  end
 
 
 

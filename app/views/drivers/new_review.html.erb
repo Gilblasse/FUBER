@@ -1,0 +1,80 @@
+<style>
+    .bg-for-nav {
+      background-color: #39374d !important;
+    }
+    .profile-img {
+      font-size: 45px !important;
+      color: #fff;
+    }
+
+    .star-rating{
+      font-size: 18px;
+    }
+
+    .star-icon{
+        color: #ffd203;
+    }
+
+</style>
+
+
+<div class="container">
+    <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
+
+        <div class="d-flex w-50 order-0">
+            <a class="navbar-brand mr-1" href="/driver/dashboard">Welcome, <%= @trip.driver.user.name %></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collapse collapse justify-content-center order-2" id="collapsingNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        <i class="material-icons profile-img">account_circle</i>
+
+    </nav>
+
+
+    <div class="d-flex flex-column align-items-center mt-5">
+        <h1>Rate This Trip:</h1>
+
+        <h4 class="mt-3"><%= @trip.passenger.user.abbreviate_name %></h4>
+        <p class="star-rating d-flex">
+          <%= @trip.passenger.rating %><i class="material-icons star-icon">star</i>
+        </p>
+
+        <form action="/driver/reviews" method="POST">
+          <input type="hidden" name="trip_id" value="<%=@trip.id%>">
+            <ul class="list-inline d-flex justify-content-center">
+
+
+                <% 5.times do |i| %>
+                     <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="stars[]" id="star<%=i + 1%>" value="<%=i + 1%>">
+                        <label class="form-check-label" for="star<%=i + 1%>"><%=i + 1%></label>
+                    </div>
+                <%end%>
+                
+            </ul>
+
+
+            <div class="form-group mt-4">
+                <label for="comment"><strong>How was the Trip with your Passenger?</strong></label>
+                <textarea class="form-control" id="comment" rows="3" name="comment" placeholder="Describe your experiance"></textarea>
+            </div>
+           
+            <p class="text-center my-4">
+                <small><%= Time.new.ctime %></small>
+            </p>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary">Submit Feedback</button>
+            </div>
+        </form>
+    </div>
+
+</div>

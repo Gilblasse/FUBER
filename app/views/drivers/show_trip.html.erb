@@ -3,97 +3,155 @@
 
 <style>
     .trip-wrapper{
-        border: solid black 2px;
-        max-width:600px;
+      border: solid black 2px;
+      max-width:600px;
     }
+
+    .bg-for-nav {
+      background-color: #39374d !important;
+    }
+    .profile-img {
+      font-size: 45px !important;
+      color: #fff;
+    }
+
 </style>
 
- <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
-        <div class="d-flex w-50 order-0">
-            <a class="navbar-brand mr-1" href="#">Welcome, <%= @driver.user.name %></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse justify-content-center order-2" id="collapsingNavbar">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/driver/dashboard">Dashboard</a>
+<div class="container">
+  <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
+          <div class="d-flex w-50 order-0">
+              <a class="navbar-brand mr-1" href="#">Welcome, <%= @driver.user.name %></a>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+          </div>
+          <div class="navbar-collapse collapse justify-content-center order-2" id="collapsingNavbar">
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/driver/dashboard">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" href="/driver/trips/<%= active_trip ? active_trip.id : "no_active_trips"%>">Active Trip</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/driver/trips">History</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/driver/reviews">Reviews</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/driver/trips/<%= active_trip ? active_trip.id : "no_active_trips"%>">Active Trip</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/driver/trips">History</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/driver/reviews">Reviews</a>
-                </li>
-            </ul>
-        </div>
-        <i class="material-icons profile-img">account_circle</i>
-    </nav>
+              </ul>
+          </div>
+          <i class="material-icons profile-img">account_circle</i>
+  </nav>
 
 
 
-<div class="container trip-wrapper mt-5">
-    <h1>Active Trip:</h1>
-    Passenger: <%= @trip.passenger.user.name %>
-    <br>
-    <%= @trip.status.capitalize %>: <%= @trip.from %>
-    <br>
-    
-    <div style="display:flex;">
-        <a class="btn btn-secondary my-5" href='http://maps.google.com/maps/dir/<%=@trip.driver.current_location%>/<%=@trip.from%>'>Google Maps</a>
+  <section>
+    <div class="row mt-5">
+      <div class=" col-lg-6">
 
-      <%if @trip.status != "completed" && @trip.status != "canceled"%>
-      
-        <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/<%=status[@trip.status]%>/edit" method="POST">
-            <input type="hidden" name="_method" value="PATCH">
-            <input type="submit" class="btn btn-primary" value="<%=status[@trip.status].capitalize%>">
-        </form>
-
-        <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/canceled/edit" method="POST">
-            <input type="hidden" name="_method" value="PATCH">
-            <input type="submit" class="btn btn-danger" value="Cancel">
-        </form>
-
-      <%end%>
-
-    </div>
-
-    <!--Accordion wrapper-->
-<div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
-
-  <!-- Accordion card -->
-  <div class="card">
-
-    <!-- Card header -->
-    <div class="card-header rgba-stylish-strong z-depth-1 mb-1" role="tab" id="headingOne1">
-      <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
-        aria-controls="collapseOne1">
-        <h5 class="mb-0">
-          Directions <i class="fas fa-angle-down rotate-icon"></i>
-        </h5>
-      </a>
-    </div>
-
-    <!-- Card body -->
-    <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
-      data-parent="#accordionEx">
-      <div class="card-body">
-
-        <% @instructions.each  do |direction| %>
-            <%= direction %>
-            <br>
+        <%# Passenger %>
+        <% if @trip.passenger%>
+          <div class="form-group">
+            <label for="where-to">Passenger: </label>
+            <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.passenger.user.name%>" disabled>
+          </div>
+        <%else%>
+            <div class="alert alert-danger" role="alert">
+              No Driver Found... Please <a href="/passenger/book-trip/<%=@trip.id%>/driver/new" class="alert-link">Select A Driver</a>
+            </div>
         <%end%>
+                      
+        <div class="form-group">
+          <label for="search-term">Origin: </label>
+          <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" value="<%=@trip.from%>" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="where-to">Destination: </label>
+          <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.to%>" disabled>
+        </div>
+
+        <div class="form-group">
+          <label for="search-term">Status: </label>
+          <input type="text" class="form-control"  id="search-term" placeholder="Where from ?" value="<%=@trip.status%>" disabled>
+        </div>
+                      
+
+
+          <%# BUTTONS %>
+        <div class="d-flex justify-content-around">
+          <div style="display:flex;">
+                  
+            <a class="btn btn-secondary my-5" href='http://maps.google.com/maps/dir/<%=@trip.driver.current_location%>/<%=@trip.from%>'>Google Maps</a>
+                  
+            <%if @trip.status != "completed" && @trip.status != "canceled"%>
+                  
+              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/<%=status[@trip.status]%>/edit" method="POST">
+                <input type="hidden" name="_method" value="PATCH">
+                <input type="submit" class="btn btn-primary" value="<%=status[@trip.status].capitalize%>">
+              </form>
+
+              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/canceled/edit" method="POST">
+                <input type="hidden" name="_method" value="PATCH">
+                <input type="submit" class="btn btn-danger" value="Cancel">
+              </form>
+
+            <%end%>
+
+            <%if @trip.status == "completed" && !@trip.driver.reviewed?(@trip)%>
+              <form style="align-self: center;" class="mx-2" action="/driver/reviews/<%=@trip.id%>" method="GET">
+                <input type="submit" class="btn btn-primary" value="Add Review">
+              </form>
+            <%end%>
+
+          </div>
+        </div>
+                      
+      </div>  
+
+      
+      <div class=" col-lg-6">
+        <div class="accordion md-accordion" id="accordionEx" role="tablist" aria-multiselectable="true">
+
+          <!-- Accordion card -->
+          <div class="card">
+
+            <!-- Card header -->
+            <div class="card-header rgba-stylish-strong z-depth-1 mb-1" role="tab" id="headingOne1">
+              <a data-toggle="collapse" data-parent="#accordionEx" href="#collapseOne1" aria-expanded="true"
+                aria-controls="collapseOne1">
+                <h5 class="mb-0">
+                  Directions <i class="fas fa-angle-down rotate-icon"></i>
+                </h5>
+              </a>
+            </div>
+
+            <!-- Card body -->
+            <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
+              data-parent="#accordionEx">
+              <div class="card-body">
+
+                <% @instructions.each  do |direction| %>
+                    <%= direction %>
+                    <br>
+                <%end%>
+
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
 
       </div>
+
+
+
     </div>
-
-  </div>
-
+  </section>
 
 </div>
-
-

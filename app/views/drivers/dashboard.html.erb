@@ -25,6 +25,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/driver/reviews">Reviews</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
             </ul>
         </div>
         <i class="material-icons profile-img">account_circle</i>
@@ -41,14 +44,27 @@
 
         <div class=" col-lg-4 mt-xs-5 bg-light">
             <%if !trips.empty? %>
-                <%= trips.first.passenger.user.name %>
-                <%= trips.first.from %>
-                <form action="/driver/dashboard/notification/<%=trips.first.id%>/dismiss" method="POST">
-                    <input type="submit" value="Dismiss">
-                </form>
-                <form action="/driver/dashboard/notification/<%=trips.first.id%>/accept" method="POST">
-                    <input type="submit" value="Accept">
-                </form>
+
+                <div class="card">
+                    <h5 class="card-header">Trip Request</h5>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= trips.first.passenger.user.name %></h5>
+                        <p class="card-text">From: <small><%= trips.first.from %></small></p>
+                        <p class="card-text">To: <small><%= trips.first.to %></small></p>
+
+                        <div class="d-flex justify-content-around">
+                            <form action="/driver/dashboard/notification/<%=trips.first.id%>/dismiss" method="POST">
+                                <input class="btn btn-warning" type="submit" value="Dismiss">
+                            </form>
+                            <form action="/driver/dashboard/notification/<%=trips.first.id%>/accept" method="POST">
+                                <input class="btn btn-success" type="submit" value="Accept">
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+
             <%else%>
                 <h3 class="text-muted">No Trips Requested</h3>
             <%end%>

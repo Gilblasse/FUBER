@@ -88,6 +88,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/driver/reviews">Reviews</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
             </ul>
         </div>
         <i class="material-icons profile-img">account_circle</i>
@@ -115,21 +118,28 @@
             <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="tab-content" id="myTabContent">
 
-            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="tab-pane fade show active table-responsive-sm" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <% if !history_trips.empty?  %>
-                    <table class="table mt-5 table-header">
+                    <%# <table class="table mt-5 table-header">
                         <thead>
                             <tr>
                                 <th scope="col">WHERE FROM</th>
                                 <th scope="col">WHERE TO</th>
-                                <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp</th>
+                                <th scope="col"></th>
                                 <th scope="col">&nbsp</th>
                                 <th scope="col">PASSENGER</th>
                             </tr>
                         </thead>
-                    </table>
-                    <table class="table mt-3 table-wrapper-scroll-y my-custom-scrollbar ">
-                       
+                    </table> %>
+                    <table class="table table-header position-fixed mt-5 table-wrapper-scroll-y my-custom-scrollbar ">
+                        <thead>
+                            <tr>
+                                <th scope="col">WHERE FROM</th>
+                                <th scope="col">WHERE TO</th>
+                                <th scope="col"></th>
+                                <th scope="col">PASSENGER</th>
+                            </tr>
+                        </thead>
                         <tbody class="animated fadeIn slow">
                         
                             <% history_trips.each do |trip| %>  
