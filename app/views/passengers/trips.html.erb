@@ -67,6 +67,7 @@
 
 <div class="container">
     
+    <%# Navigation %>
     <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
         <div class="d-flex w-50 order-0">
             <a class="navbar-brand mr-1" href="#">Welcome, <%= @passenger.user.name %></a>
@@ -93,6 +94,7 @@
         <i class="material-icons profile-img">account_circle</i>
     </nav>
 
+
     <section>
 
         <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
@@ -112,19 +114,16 @@
 
             <div class="tab-pane fade show active table-center" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <% if !active_trips.empty?  %>
-                    <table class="table mt-5 table-header">
-                        <thead>
+
+                    <table class="table mt-5 table-header table-responsive-md table-wrapper-scroll-y my-custom-scrollbar ">
+                       <thead>
                             <tr>
                                 <th scope="col">WHERE FROM</th>
                                 <th scope="col">WHERE TO</th>
-                                <%# <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp</th> %>
-                                <%# <th scope="col">&nbsp</th> %>
+                                <th scope="col">status</th>
                                 <th scope="col">DRIVER</th>
                             </tr>
                         </thead>
-                    </table>
-                    <table class="table mt-3 table-wrapper-scroll-y my-custom-scrollbar ">
-                       
                         <tbody class="animated fadeIn slow">
                         
                             <% active_trips.each do |trip| %>  
@@ -168,18 +167,15 @@
 
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <% if !history_trips.empty?  %>
-                    <table class="table mt-5 table-header">
-                        <thead>
+                    <table class="table mt-5 table-header table-responsive-md table-wrapper-scroll-y my-custom-scrollbar ">
+                       <thead>
                             <tr>
                                 <th scope="col">WHERE FROM</th>
                                 <th scope="col">WHERE TO</th>
-                                <%# <th scope="col">&nbsp&nbsp&nbsp&nbsp&nbsp</th> %>
-                                <%# <th scope="col">&nbsp</th> %>
+                                <th scope="col"></th>
                                 <th scope="col">DRIVER</th>
                             </tr>
                         </thead>
-                    </table>
-                    <table class="table mt-3 table-wrapper-scroll-y my-custom-scrollbar ">
                        
                         <tbody class="animated fadeIn slow">
                         

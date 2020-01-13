@@ -9,13 +9,18 @@ class Passenger < ActiveRecord::Base
     end
 
     def add_review(trip_id,comment,stars=0)
+        stars = stars.to_i
         trip = Trip.find(trip_id)
-        return "You already made a review" if trip.reviews.any?{|review| review.reviewable == self }
-        return "Star count must be a number between 0 - 5" if !stars.between? 0,5
 
+        return nil if !stars.between? 0,5
+                
         passenger_review = self.reviews.create(comment: comment, stars: stars)
         trip.reviews << passenger_review
         passenger_review
+    end
+
+    def reviewed?(trip)
+        trip.reviews.any?{|review| review.reviewable == self }
     end
 
     def rating 
@@ -30,6 +35,10 @@ class Passenger < ActiveRecord::Base
 
     def driver_reviews 
         self.trips.map{|trip| trip.reviews.select{|review| review.reviewable == trip.driver }}.flatten
+    end
+
+    def reviewed?(trip)
+        trip.reviews.any?{|review| review.reviewable == self }
     end
 
     def active_trips

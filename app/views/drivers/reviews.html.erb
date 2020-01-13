@@ -16,6 +16,8 @@
 
 
 <div class="container">
+
+    <%# Navigation  %>
     <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
             <div class="d-flex w-50 order-0">
                 <a class="navbar-brand mr-1" href="#">Welcome, <%= @driver.user.name %></a>
@@ -52,7 +54,7 @@
     <div class="mt-4">
         <%= "<h5> No Reviews </h5>" if @driver.passenger_reviews.empty?%>
         <% @driver.passenger_reviews.each do |review| %>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-6 offset-3">
 
                     <div class="card">
