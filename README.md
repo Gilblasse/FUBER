@@ -1,7 +1,10 @@
 # Fuber (similar to Uber)
 ## How to use
-If you dont already have an account sign up and make sure to select your role as either a passenger or a driver
-![car](/public/images/uber-car-pic.png)
+If you dont already have an account sign up and make sure to select your role as either a passenger or a driver.
+
+
+![car](/public/images/signup-page.png)
+
 
 ### Passenger
 Once logged in you'll be presented with a booking page
