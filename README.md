@@ -1,4 +1,4 @@
-#Fuber (similar to Uber)
+# Fuber (similar to Uber)
 ## How to use
 If you dont already have an account sign up and make sure to select your role as either a passenger or a driver
 
