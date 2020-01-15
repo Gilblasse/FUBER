@@ -179,7 +179,7 @@
                        
                         <tbody class="animated fadeIn slow">
                         
-                            <% history_trips.each do |trip| %>  
+                            <% history_trips.reverse.each do |trip| %>  
                                 <%status_color = {
                                     "canceled" =>  "badge-danger",
                                     "pending" => "badge-secondary",

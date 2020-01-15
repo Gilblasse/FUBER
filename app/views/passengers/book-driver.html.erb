@@ -11,6 +11,14 @@
         box-sizing: border-box;
     }
 
+    .rating-wrapper{
+        font-size: 18px;
+    }
+
+    .rating-wrapper i {
+        color: #ffd203;
+    }
+
   li {
       padding:0 !important;
   }
@@ -21,11 +29,11 @@
    }
 
    label:hover {
-       background-color: #f8f9fb;
+       background-color: #e1e3e5;
    }
 
    label:active, input:checked+label, input:active+label {
-        background-color: #f2f2f3;
+        background-color: #c4c7cb;
     }  
 
     input[id^="d"] {
@@ -116,8 +124,11 @@
                             <% @drivers.each do |driver| %>
                                 <li class="list-group-item">
                                     <input type="radio" id="d<%= driver.id %>" name="driver_id" value="<%= driver.id %>" />
-                                    <label for="d<%= driver.id %>" class="d-flex justify-content-between align-items-center">      
-                                        <i class="material-icons">account_circle</i>
+                                    <label for="d<%= driver.id %>" class="d-flex justify-content-between align-items-center"> 
+                                        <span class="d-flex rating-wrapper"> 
+                                            <%= driver.rating %>    
+                                            <i class="material-icons">star</i>
+                                        </span> 
                                         <%= driver.user.name %> 
                                         <span class="badge badge-primary badge-bg badge-pill"><%= driver.leg[:time]%></span>
                                     </label>

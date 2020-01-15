@@ -87,6 +87,8 @@
 
                     <%# BUTTONS %>
                     <div class="d-flex justify-content-around">
+
+                        <%# Cancel  %>
                         <% if @trip.status.downcase != "completed" && @trip.status.downcase != "canceled" %>
                             <form action="/passenger/trip/<%=@trip.id%>" method="post">
                                 <input id="hidden" type="hidden" name="_method" value="patch">
@@ -95,18 +97,21 @@
                             </form>
                         <%end%>
 
+                        <%# Edit  %>
                         <%if pending_status %>
                             <button  class="btn btn-light" onclick="window.location.href = '/passenger/trip/<%=@trip.id%>/edit';">
                             <i class="material-icons">edit</i>
                             </button>
 
+                            <%# Delete  %>
                             <form action="/passenger/trip/<%=@trip.id%>" method="post">
                             <input id="hidden" type="hidden" name="_method" value="delete">
                             <button class="btn btn-danger" type="submit"><i class="material-icons">delete</i></button>
                             </form>
                         <%end%>
 
-                        <%if @trip.status.downcase == "completed" && !@trip.driver.reviewed?(@trip)%>
+                        <%# Add Review  %>
+                        <%if @trip.status.downcase == "completed" && !@trip.passenger.reviewed?(@trip)%>
                             <form style="align-self: center;" class="mx-2" action="/passenger/reviews/<%=@trip.id%>" method="GET">
                                 <input type="submit" class="btn btn-primary" value="Add Review">
                             </form>

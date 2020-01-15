@@ -62,7 +62,7 @@
         
     <div class="mt-4">
         <%= "<h5> No Reviews </h5>" if @passenger.driver_reviews.empty?%>
-        <% @passenger.driver_reviews.each do |review| %>
+        <% @passenger.driver_reviews.reverse.each do |review| %>
             <div class="row mb-3">
                 <div class="col-6 offset-3">
 

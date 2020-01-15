@@ -12,7 +12,7 @@ class DriversController < ApplicationController
       map = GMAPS.directions(@driver.current_location,"181 mansion st poughkeepsie ny",mode: 'driving',alternatives: false)
       @driver_coord = map[0][:legs][0][:start_location]
       
-      @trips = @driver.trips.detect{|trip| trip.status == "pending"}
+      @trip = @driver.trips.detect{|trip| trip.status == "pending"}
       erb :"/drivers/dashboard.html"
     else 
       trip = @driver.current_trip
@@ -118,7 +118,7 @@ class DriversController < ApplicationController
 
 
 
-  
+
 
   helpers do 
 

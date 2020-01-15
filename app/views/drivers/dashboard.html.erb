@@ -1,5 +1,4 @@
-<%trips = @driver.trips.select{|trip| trip.status == "pending"}%>
-<%active_trip = @driver.trips.find{|trip| trip.status == "in route"}%>
+
 
 <div class="container">
 
@@ -17,7 +16,7 @@
                     <a class="nav-link" href="#">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/driver/trips/<%= active_trip ? active_trip.id : "no_active_trips"%>">Active Trip</a>
+                    <a class="nav-link" href="/driver/trips/<%= @driver.active_trip ? active_trip.id : "no_active_trips"%>">Active Trip</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/driver/trips">History</a>
@@ -41,22 +40,23 @@
         <div class=" col-lg-8">
             <div id="map"></div>
         </div>
+        
 
         <div class=" col-lg-4 mt-xs-5 bg-light">
-            <%if !trips.empty? %>
+            <%if @trip %>
 
                 <div class="card">
                     <h5 class="card-header">Trip Request</h5>
                     <div class="card-body">
-                        <h5 class="card-title"><%= trips.first.passenger.user.name %></h5>
-                        <p class="card-text">From: <small><%= trips.first.from %></small></p>
-                        <p class="card-text">To: <small><%= trips.first.to %></small></p>
+                        <h5 class="card-title"><%= @trip.passenger.user.name %></h5>
+                        <p class="card-text">From: <small><%= @trip.from %></small></p>
+                        <p class="card-text">To: <small><%= @trip.to %></small></p>
 
                         <div class="d-flex justify-content-around">
-                            <form action="/driver/dashboard/notification/<%=trips.first.id%>/dismiss" method="POST">
+                            <form action="/driver/dashboard/notification/<%=@trip.id%>/dismiss" method="POST">
                                 <input class="btn btn-warning" type="submit" value="Dismiss">
                             </form>
-                            <form action="/driver/dashboard/notification/<%=trips.first.id%>/accept" method="POST">
+                            <form action="/driver/dashboard/notification/<%=@trip.id%>/accept" method="POST">
                                 <input class="btn btn-success" type="submit" value="Accept">
                             </form>
                         </div>
@@ -66,7 +66,7 @@
 
 
             <%else%>
-                <h3 class="text-muted">No Trips Requested</h3>
+                <h4 class="text-muted">No Requested Trips </h4>
             <%end%>
         </div>
 

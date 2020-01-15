@@ -13,7 +13,7 @@ section{
 }
 
 #form-animation {
-  animation-duration: 3s;
+  animation-duration: 2s;
   animation-delay: 1s;
 }
 
@@ -47,7 +47,7 @@ section{
     top: 100px;
     left: 5%;
     z-index: 5;
-    animation-duration: 3s;
-    animation-delay: 3s;
+    animation-duration: 1s;
+    animation-delay: 2s;
 }
 

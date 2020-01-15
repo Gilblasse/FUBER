@@ -54,6 +54,11 @@ class Driver < ActiveRecord::Base
         self.trips.detect{|trip| trip.status.downcase == "in route" || trip.status.downcase == "arrived"}
     end
 
+    def active_trip
+        self.trips.find{|trip| trip.status.downcase == "in route"}
+    end
+
+
     def distance_from(passenger_location)
         
         trip = GMAPS.directions(self.current_location,passenger_location,mode: 'driving',alternatives: false)

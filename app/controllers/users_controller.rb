@@ -64,7 +64,7 @@ class UsersController < ApplicationController
       
       if user.valid? 
         user.save
-        user.create_type(params[:type])
+        user. create_type(params[:type])
       else
         settings.message[:error] = user.errors.messages
         settings.message[:email] = params[:user][:email]

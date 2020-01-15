@@ -1,4 +1,3 @@
-<%active_trip = @driver.trips.find{|trip| trip.status == "in route"}%>
 <style>
     .bg-for-nav {
       background-color: #39374d !important;
@@ -31,7 +30,7 @@
                         <a class="nav-link" href="/driver/dashboard">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/driver/trips/<%= active_trip ? active_trip.id : "no_active_trips"%>">Active Trip</a>
+                        <a class="nav-link" href="/driver/trips/<%= @driver.active_trip ? active_trip.id : "no_active_trips"%>">Active Trip</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/driver/trips">History</a>
@@ -53,7 +52,7 @@
     
     <div class="mt-4">
         <%= "<h5> No Reviews </h5>" if @driver.passenger_reviews.empty?%>
-        <% @driver.passenger_reviews.each do |review| %>
+        <% @driver.passenger_reviews.reverse.each do |review| %>
             <div class="row mb-3">
                 <div class="col-6 offset-3">
 
