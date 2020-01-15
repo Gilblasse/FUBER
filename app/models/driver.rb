@@ -21,6 +21,10 @@ class Driver < ActiveRecord::Base
         driver_review
     end
 
+    def find_my_trip(id)
+        self.trips.detect{|trip| trip.id == id.to_i }
+    end
+
     def reviewed?(trip)
         trip.reviews.any?{|review| review.reviewable == self }
     end

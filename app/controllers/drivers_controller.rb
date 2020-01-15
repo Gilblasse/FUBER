@@ -61,7 +61,9 @@ class DriversController < ApplicationController
     if params[:id] == "no_active_trips"
        redirect "/driver/dashboard"
     else  
-      @trip = Trip.find_by(id: params[:id])
+      @trip = @driver.find_my_trip(params[:id])
+      redirect "/not-found" if @trip.nil?
+
       @leg_info = @driver.distance_from(@trip.from)
       @instructions = @driver.driving_instructions
 
@@ -72,7 +74,8 @@ class DriversController < ApplicationController
 
   # Update Trip Status 
   patch "/driver/trips/:id/:status/edit" do 
-    trip = Trip.find(params[:id])
+    driver = authenticate_user
+    trip = driver.find_my_trip(params[:id])
     trip.status = params[:status]
     trip.save 
     redirect "/driver/reviews/#{params[:id]}" if params[:status] == "completed"
@@ -99,15 +102,18 @@ class DriversController < ApplicationController
 
 # SHOW FORM TO CREATE NEW REVIEW 
   get "/driver/trips/:id/reviews" do 
-    authenticate_user
-    @trip = Trip.find_by(id: params[:id])
-
+    @driver = authenticate_user
+    @trip = driver.find_my_trip(params[:id])
+    redirect "/not-found" if @trip.nil?
+    
     erb :"/drivers/new_review.html"
   end
 
   # Create Review 
   post "/driver/reviews" do
-    trip = Trip.find_by(id: params[:trip_id])
+    driver = authenticate_user
+    trip = driver.find_my_trip(params[:id])
+    
     if !trip.driver.reviewed?(trip) && !params[:comment].empty?
       trip.driver.add_review(trip.id,params[:comment],params[:stars][0])
     end
