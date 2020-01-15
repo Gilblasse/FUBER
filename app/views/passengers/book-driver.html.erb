@@ -108,12 +108,12 @@
                 <h3> Select A Driver </h3>
                 
                 <ul class="list-group list-group-flush">
-                    <form action="/passenger/trip/<%=@trip.id%>/driver" method="POST">
+                    <form action="/passenger/trips/<%=@trip.id%>/driver" method="POST">
 
                         <% if @drivers.empty? %>
                             <div style="width:100%; margin:0 auto;" class="mt-5 d-flex align-items-center flex-column">
                                 <p><strong>Sorry, No drivers nerby</strong></p>
-                                <a href="/passenger/trip/<%=@trip.id%>/edit">Try another address</a>
+                                <a href="/passenger/trips/<%=@trip.id%>/edit">Try another address</a>
                             </div>
                         <% end %>
 

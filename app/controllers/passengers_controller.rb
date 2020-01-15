@@ -16,7 +16,7 @@ class PassengersController < ApplicationController
     if @active_trips.empty?
       erb :"/passengers/book-trip.html"
     else
-      redirect "/passenger/trip/#{@active_trips[0].id}" 
+      redirect "/passenger/trips/#{@active_trips[0].id}" 
     end
     
   end
@@ -50,14 +50,14 @@ class PassengersController < ApplicationController
   end
 
 # ASSOCIATING DRIVER FOR TRIP
-  post "/passenger/trip/:id/driver" do     
+  post "/passenger/trips/:id/driver" do     
     passenger = authenticate_user 
     trip = passenger.find_my_trip(params[:id])
     driver = Driver.find(params[:driver_id])
     trip.driver = driver 
     trip.save
     driver.reload
-    redirect "/passenger/trip/#{trip.id}"
+    redirect "/passenger/trips/#{trip.id}"
   end
 
 
@@ -66,7 +66,7 @@ class PassengersController < ApplicationController
 ##########################
 
 # SHOW TRIP 
-  get '/passenger/trip/:id' do 
+  get '/passenger/trips/:id' do 
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     passenger = authenticate_user
     @trip = passenger.find_my_trip(params[:id])
@@ -88,24 +88,25 @@ class PassengersController < ApplicationController
   #######################
 
   # PRESENT EDIT FORM
-  get '/passenger/trip/:id/edit' do 
+  get '/passenger/trips/:id/edit' do 
     @passenger = authenticate_user
     @trip = @passenger.find_my_trip(params[:id])
+    redirect "/not-found" if @trip.nil?
     
     erb :"/passengers/edit-trip.html"
   end
 
   # Updating Trip
-  patch "/passenger/trip/:id" do
+  patch "/passenger/trips/:id" do
     passenger = authenticate_user
     trip = passenger.find_my_trip(params[:id])        
     trip.update(Hash[params.to_a[1..-2]])
     
-    redirect "/passenger/trip/#{params[:id]}"
+    redirect "/passenger/trips/#{params[:id]}"
   end
 
   # Deleting Trip
-  delete "/passenger/trip/:id" do
+  delete "/passenger/trips/:id" do
     passenger = authenticate_user
     trip = passenger.find_my_trip(params[:id]).destroy        
 

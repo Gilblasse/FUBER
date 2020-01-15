@@ -105,7 +105,7 @@
 
             <% if !active_trips.empty? %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/passenger/trip/<%= active_trips.first.id %>"> Current Trip </a>
+                    <a class="nav-link" href="/passenger/trips/<%= active_trips.first.id %>"> Current Trip </a>
                 </li>
             <%end%>
 
@@ -147,7 +147,7 @@
                                     <td class="text-muted"><%= !trip.driver.nil? ? trip.driver.user.name.capitalize : "No Driver" %></td>
 
                                     <td class="hidden-btn-container">
-                                        <a class="btn btn-primary" href="/passenger/trip/<%=trip.id%>"><i class="material-icons">remove_red_eye</i></a>
+                                        <a class="btn btn-primary" href="/passenger/trips/<%=trip.id%>"><i class="material-icons">remove_red_eye</i></a>
                                     </td>
                                 </tr>
                             <% end %>

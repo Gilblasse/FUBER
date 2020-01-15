@@ -42,7 +42,7 @@
     <section>
         <div class="row mt-5">
             <div class=" col-lg-6 offset-lg-3">
-                <form action="/passenger/trip/<%=@trip.id%>" method="post">
+                <form action="/passenger/trips/<%=@trip.id%>" method="post">
                     <input id="hidden" type="hidden" name="_method" value="patch">
                     
                     <div class="form-group">
@@ -54,10 +54,13 @@
                         <label for="where-to">Destination: </label>
                         <input type="text" class="form-control"  id="where-to" placeholder="Where To ?" value="<%=@trip.to%>" name="to" <%=status%>>
                     </div>
-
+                    
                     <% if @trip.driver%>
                         <div class="alert alert-success d-flex justify-content-between" role="alert">
-                          <span>Current Driver: <strong><%=@trip.driver.user.name%></strong></span>  <a href="/passenger/book-trip/<%=@trip.id%>/driver/new" class="alert-link">change driver</a>
+                          <span>Current Driver: <strong><%=@trip.driver.user.name%></strong></span>  
+                            <%if status != "disabled"%>
+                                <a href="/passenger/book-trip/<%=@trip.id%>/driver/new" class="alert-link">change driver</a>
+                            <% end %>
                         </div>
                     <%else%>
                         <div class="alert alert-primary" role="alert">
