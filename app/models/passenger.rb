@@ -8,6 +8,10 @@ class Passenger < ActiveRecord::Base
         '/passenger/book-trip/new'
     end
 
+    def find_my_trip(id)
+        self.trips.detect{|trip| trip.id == id.to_i }
+    end
+
     def add_review(trip_id,comment,stars=0)
         stars = stars.to_i
         trip = Trip.find(trip_id)

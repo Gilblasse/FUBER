@@ -42,7 +42,7 @@ class PassengersController < ApplicationController
   get "/passenger/book-trip/:id/driver/new" do
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
     @passenger = authenticate_user 
-    @trip = Trip.find(params[:id])
+    @trip = @passenger.find_my_trip(params[:id])
     @drivers = Driver.closest_drivers(@trip.from)
     @trip_leg = GMAPS.directions(@trip.from, @trip.to, mode: 'driving',alternatives: false)
 
@@ -51,14 +51,14 @@ class PassengersController < ApplicationController
 
 # ASSOCIATING DRIVER FOR TRIP
   post "/passenger/trip/:id/driver" do     
-    trip = Trip.find(params[:id])
+    passenger = authenticate_user 
+    trip = passenger.find_my_trip(params[:id])
     driver = Driver.find(params[:driver_id])
     trip.driver = driver 
     trip.save
     driver.reload
-    redirect "/passenger/trips"
+    redirect "/passenger/trip/#{trip.id}"
   end
-
 
 
 ##########################
@@ -68,9 +68,10 @@ class PassengersController < ApplicationController
 # SHOW TRIP 
   get '/passenger/trip/:id' do 
     @stylesheet_link = "/stylesheets/passengers/dashboard.css"
-    authenticate_user
-    @trip = Trip.find(params[:id])
-      
+    passenger = authenticate_user
+    @trip = passenger.find_my_trip(params[:id])
+    redirect "/not-found" if @trip.nil?
+
     erb :"/passengers/show-trip.html"
   end
   
@@ -89,22 +90,25 @@ class PassengersController < ApplicationController
   # PRESENT EDIT FORM
   get '/passenger/trip/:id/edit' do 
     @passenger = authenticate_user
-    @trip = Trip.find(params[:id])
+    @trip = @passenger.find_my_trip(params[:id])
     
     erb :"/passengers/edit-trip.html"
   end
 
   # Updating Trip
-  patch "/passenger/trip/:id" do        
-    trip = Trip.find(params[:id])
+  patch "/passenger/trip/:id" do
+    passenger = authenticate_user
+    trip = passenger.find_my_trip(params[:id])        
     trip.update(Hash[params.to_a[1..-2]])
     
     redirect "/passenger/trip/#{params[:id]}"
   end
 
   # Deleting Trip
-  delete "/passenger/trip/:id" do        
-    trip = Trip.find(params[:id]).destroy
+  delete "/passenger/trip/:id" do
+    passenger = authenticate_user
+    trip = passenger.find_my_trip(params[:id]).destroy        
+
     redirect "/passenger/trips"
   end
 
@@ -124,16 +128,18 @@ class PassengersController < ApplicationController
   end
 
   # SHOW FORM TO CREATE NEW REVIEW 
-  get "/passenger/reviews/:id" do 
-    authenticate_user
-    @trip = Trip.find_by(id: params[:id])
+  get "/passenger/trips/:id/reviews/new" do 
+    passenger = authenticate_user
+    @trip = passenger.find_my_trip(params[:id])
 
     erb :"/passengers/new_review.html"
   end
 
   # Create A Review 
   post "/passenger/reviews" do
-    trip = Trip.find_by(id: params[:trip_id])
+    passenger = authenticate_user
+    trip = passenger.find_my_trip(params[:trip_id])
+    
     if !trip.passenger.reviewed?(trip) && !params[:comment].empty?
       trip.passenger.add_review(trip.id,params[:comment],params[:stars][0])
     end

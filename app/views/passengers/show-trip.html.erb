@@ -112,7 +112,7 @@
 
                         <%# Add Review  %>
                         <%if @trip.status.downcase == "completed" && !@trip.passenger.reviewed?(@trip)%>
-                            <form style="align-self: center;" class="mx-2" action="/passenger/reviews/<%=@trip.id%>" method="GET">
+                            <form style="align-self: center;" class="mx-2" action="/passenger/trips/<%=@trip.id%>/reviews/new" method="GET">
                                 <input type="submit" class="btn btn-primary" value="Add Review">
                             </form>
                         <%end%>

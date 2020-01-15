@@ -102,8 +102,9 @@
 
             <%end%>
 
+              
             <%if @trip.status == "completed" && !@trip.driver.reviewed?(@trip)%>
-              <form style="align-self: center;" class="mx-2" action="/driver/reviews/<%=@trip.id%>" method="GET">
+              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/reviews/new" method="GET">
                 <input type="submit" class="btn btn-primary" value="Add Review">
               </form>
             <%end%>

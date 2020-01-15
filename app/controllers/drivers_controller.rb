@@ -98,7 +98,7 @@ class DriversController < ApplicationController
   end
 
 # SHOW FORM TO CREATE NEW REVIEW 
-  get "/driver/reviews/:id" do 
+  get "/driver/trips/:id/reviews" do 
     authenticate_user
     @trip = Trip.find_by(id: params[:id])
 

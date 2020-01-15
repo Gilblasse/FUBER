@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, ENV.fetch('SESSION_SECRET') { SecureRandom.hex(64) }
   end
 
-  404 Error!
+  # 404 Error!
   not_found do
     status 404
     erb :not_found
