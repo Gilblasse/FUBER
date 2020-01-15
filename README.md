@@ -3,7 +3,7 @@
 If you dont already have an account sign up and make sure to select your role as either a passenger or a driver.
 
 
-![car](/public/images/signup-page.png)
+![car](/public/images/uber-car-pic.png)
 
 
 ### Passenger
