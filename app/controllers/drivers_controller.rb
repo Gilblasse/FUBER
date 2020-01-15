@@ -78,7 +78,7 @@ class DriversController < ApplicationController
     trip = driver.find_my_trip(params[:id])
     trip.status = params[:status]
     trip.save 
-    redirect "/driver/reviews/#{params[:id]}" if params[:status] == "completed"
+    redirect "/driver/trips/#{params[:id]}/reviews/new" if params[:status] == "completed"
 
     if params[:status] == "completed" || params[:status] =="canceled"
       redirect "/driver/dashboard"
@@ -101,16 +101,16 @@ class DriversController < ApplicationController
   end
 
 # SHOW FORM TO CREATE NEW REVIEW 
-  get "/driver/trips/:id/reviews" do 
+  get "/driver/trips/:id/reviews/new" do 
     @driver = authenticate_user
-    @trip = driver.find_my_trip(params[:id])
+    @trip = @driver.find_my_trip(params[:id])
     redirect "/not-found" if @trip.nil?
     
     erb :"/drivers/new_review.html"
   end
 
   # Create Review 
-  post "/driver/reviews" do
+  post "/driver/trips/:id/reviews" do
     driver = authenticate_user
     trip = driver.find_my_trip(params[:id])
     

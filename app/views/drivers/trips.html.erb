@@ -1,4 +1,4 @@
-<%history_trips = @driver.trips.select{|trip| trip.status == "completed" || trip.status == "canceled" }.reverse%>
+<%history_trips = @driver.trips.select{|trip| trip.status == "completed" || trip.status == "canceled" }%>
 <%active_trip = @driver.trips.find{|trip| trip.status == "in route"}%>
 
 <style>
@@ -120,17 +120,7 @@
 
             <div class="tab-pane fade show active table-responsive-sm" id="home" role="tabpanel" aria-labelledby="home-tab">
                 <% if !history_trips.empty?  %>
-                    <%# <table class="table mt-5 table-header">
-                        <thead>
-                            <tr>
-                                <th scope="col">WHERE FROM</th>
-                                <th scope="col">WHERE TO</th>
-                                <th scope="col"></th>
-                                <th scope="col">&nbsp</th>
-                                <th scope="col">PASSENGER</th>
-                            </tr>
-                        </thead>
-                    </table> %>
+                
                     <table class="table table-header position-fixed mt-5 table-wrapper-scroll-y my-custom-scrollbar ">
                         <thead>
                             <tr>
@@ -142,7 +132,7 @@
                         </thead>
                         <tbody class="animated fadeIn slow">
                         
-                            <% history_trips.each do |trip| %>  
+                            <% history_trips.reverse.each do |trip| %>  
                                 <%status_color = {
                                     "canceled" =>  "badge-danger",
                                     "pending" => "badge-secondary",
