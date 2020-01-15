@@ -1,7 +1,7 @@
 # Fuber (similar to Uber)
 ## How to use
 If you dont already have an account sign up and make sure to select your role as either a passenger or a driver
-![alt text](https://github.com/Gilblasse/FUBER/tree/master/public/images/uber-car-pic.png "Logo Title Text 1")
+![car](/public/images/uber-car-pic.png)
 
 ### Passenger
 Once logged in you'll be presented with a booking page
