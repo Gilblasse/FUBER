@@ -1,7 +1,5 @@
 class PassengersController < ApplicationController
 
-  set :drivers_set, []
-
 
   ##########################
   # BOOKING NEW TRIP SECTION
@@ -61,98 +59,17 @@ class PassengersController < ApplicationController
   end
 
 
-##########################
-#    TRIP SECTION
-##########################
 
-# SHOW TRIP 
-  get '/passenger/trips/:id' do 
-    @stylesheet_link = "/stylesheets/passengers/dashboard.css"
-    passenger = authenticate_user
-    @trip = passenger.find_my_trip(params[:id])
-    redirect "/not-found" if @trip.nil?
 
-    erb :"/passengers/show-trip.html"
-  end
+
+
+
+
+
+
+
+
   
-  # ALL TRIPS 
-  get '/passenger/trips' do 
-    @passenger = authenticate_user
-    erb :"/passengers/trips.html"
-  end
-  
-
-
-  #######################
-  # EDIT TRIP SECTION
-  #######################
-
-  # PRESENT EDIT FORM
-  get '/passenger/trips/:id/edit' do 
-    @passenger = authenticate_user
-    @trip = @passenger.find_my_trip(params[:id])
-    redirect "/not-found" if @trip.nil?
-    
-    erb :"/passengers/edit-trip.html"
-  end
-
-  # Updating Trip
-  patch "/passenger/trips/:id" do
-    passenger = authenticate_user
-    trip = passenger.find_my_trip(params[:id])        
-    trip.update(Hash[params.to_a[1..-2]])
-    
-    redirect "/passenger/trips/#{params[:id]}"
-  end
-
-  # Deleting Trip
-  delete "/passenger/trips/:id" do
-    passenger = authenticate_user
-    trip = passenger.find_my_trip(params[:id]).destroy        
-
-    redirect "/passenger/trips"
-  end
-
-
-
-
-  ##########################
-  #   REVIEWS SECTION
-  ##########################
-
-  # ALL REVIEWS
-  get '/passenger/reviews' do 
-    @stylesheet_link = "/stylesheets/passengers/dashboard.css"
-    @passenger = authenticate_user
-
-    erb :"/passengers/reviews.html"
-  end
-
-  # SHOW FORM TO CREATE NEW REVIEW 
-  get "/passenger/trips/:id/reviews/new" do 
-    passenger = authenticate_user
-    @trip = passenger.find_my_trip(params[:id])
-
-    erb :"/passengers/new_review.html"
-  end
-
-  # Create A Review 
-  post "/passenger/reviews" do
-    passenger = authenticate_user
-    trip = passenger.find_my_trip(params[:trip_id])
-    
-    if !trip.passenger.reviewed?(trip) && !params[:comment].empty?
-      trip.passenger.add_review(trip.id,params[:comment],params[:stars][0])
-    end
-
-    redirect "/passenger/book-trip/new"
-  end
-
-
-
-
-
-
     
   helpers do 
 

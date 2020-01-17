@@ -53,12 +53,16 @@
                         <p class="card-text">To: <small><%= @trip.to %></small></p>
 
                         <div class="d-flex justify-content-around">
-                            <form action="/driver/dashboard/notification/<%=@trip.id%>/dismiss" method="POST">
-                                <input class="btn btn-warning" type="submit" value="Dismiss">
-                            </form>
-                            <form action="/driver/dashboard/notification/<%=@trip.id%>/accept" method="POST">
-                                <input class="btn btn-success" type="submit" value="Accept">
-                            </form>
+                            <% @action_type.each do |action| %>
+                                <%action_color = { "dismiss"=> "btn-warning","accept"=> "btn-success" } %>
+                                <form action="/driver/dashboard/notifications" method="POST">
+                                    <input type="hidden" name="status" value="<%=action%>">
+                                    <input type="hidden" name="id" value="<%=@trip.id%>">
+                                    <input class="btn <%=action_color[action]%>" type="submit" value="<%=action.capitalize%>">
+                                </form>
+
+                            <% end %>
+                            
                         </div>
 
                     </div>

@@ -22,5 +22,6 @@ class Helpers
 
       klasses.select{|klass| klass.column_names.include? "user_id" }
     end
-
+    
+    
 end

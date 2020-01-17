@@ -48,7 +48,8 @@
           <%= @trip.passenger.rating %><i class="material-icons star-icon">star</i>
         </p>
 
-        <form action="/driver/trips/<%= @trip.id%>/reviews" method="POST">
+        <form action="/driver/reviews" method="POST">
+            <input type="hidden" name="trip_id" value="<%=@trip.id%>">
             <ul class="list-inline d-flex justify-content-center">
 
 

@@ -1,5 +1,5 @@
-<%history_trips = @passenger.trips.select{|trip| trip.status.downcase == "completed" || trip.status.downcase == "canceled" }%>
-<%active_trips = @passenger.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }%>
+<%history_trips = @user.trips.select{|trip| trip.status.downcase == "completed" || trip.status.downcase == "canceled" }%>
+<%active_trips = @user.trips.reject{|trip| trip.status.downcase == "canceled" || trip.status.downcase == "completed" }%>
 
 <style>
     .bg-for-nav {
@@ -70,7 +70,7 @@
     <%# Navigation %>
     <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
         <div class="d-flex w-50 order-0">
-            <a class="navbar-brand mr-1" href="#">Welcome, <%= @passenger.user.name %></a>
+            <a class="navbar-brand mr-1" href="#">Welcome, <%= @user.user.name %></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>

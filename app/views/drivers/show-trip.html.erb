@@ -1,5 +1,5 @@
 <%status = {"in route" => "arrived", "arrived" => "completed","canceled" => "canceled","completed" => "completed"}%>
-<%active_trip = @driver.trips.find{|trip| trip.status == "in route"}%>
+<%active_trip = @user.trips.find{|trip| trip.status == "in route"}%>
 
 <style>
     .trip-wrapper{
@@ -20,7 +20,7 @@
 <div class="container">
   <nav class="navbar navbar-expand-md navbar-dark bg-for-nav">
           <div class="d-flex w-50 order-0">
-              <a class="navbar-brand mr-1" href="#">Welcome, <%= @driver.user.name %></a>
+              <a class="navbar-brand mr-1" href="#">Welcome, <%= @user.user.name %></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
                   <span class="navbar-toggler-icon"></span>
               </button>
@@ -88,22 +88,23 @@
                   
             <a class="btn btn-secondary my-5" href='http://maps.google.com/maps/dir/<%=@trip.driver.current_location%>/<%=@trip.from%>'>Google Maps</a>
                   
-            <%if @trip.status != "completed" && @trip.status != "canceled"%>
+            <%if @trip.status.downcase != "completed" && @trip.status.downcase != "canceled"%>
                   
-              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/<%=status[@trip.status]%>/edit" method="POST">
+              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>" method="POST">
                 <input type="hidden" name="_method" value="PATCH">
-                <input type="submit" class="btn btn-primary" value="<%=status[@trip.status].capitalize%>">
+                <input type="submit" name="status" class="btn btn-primary" value="<%=status[@trip.status.downcase].capitalize%>">
               </form>
 
-              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/canceled/edit" method="POST">
+              <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>" method="POST">
                 <input type="hidden" name="_method" value="PATCH">
+                 <input type="hidden" name="status" value="canceled">
                 <input type="submit" class="btn btn-danger" value="Cancel">
               </form>
 
             <%end%>
 
               
-            <%if @trip.status == "completed" && !@trip.driver.reviewed?(@trip)%>
+            <%if @trip.status.downcase == "completed" && !@trip.driver.reviewed?(@trip)%>
               <form style="align-self: center;" class="mx-2" action="/driver/trips/<%=@trip.id%>/reviews/new" method="GET">
                 <input type="submit" class="btn btn-primary" value="Add Review">
               </form>
@@ -135,12 +136,12 @@
             <div id="collapseOne1" class="collapse show" role="tabpanel" aria-labelledby="headingOne1"
               data-parent="#accordionEx">
               <div class="card-body">
-
-                <% @instructions.each  do |direction| %>
+                <% @user.distance_from(@trip.from) %>
+                <% @user.driving_instructions.each  do |direction| %>
                     <%= direction %>
                     <br>
                 <%end%>
-
+          
               </div>
             </div>
             
